@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>ФК «Авангард» Лозова</title>
-  <meta name="description" content="Футбольний клуб «Авангард» з Лозової, заснований 1969 року. Друга ліга ПФЛ: наступний матч, результати, таблиця, склад, новини, академія.">
+  <meta name="description" content="Офіційний сайт футбольного клубу «Авангард» з Лозової. З 1969 року. Сезон 2026/27 у Другій лізі ПФЛ: наступний матч, результати, таблиця, склад, новини, академія.">
   <meta name="theme-color" content="#100e0b">
   <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
-  <link rel="preload" href="assets/fonts/FixelDisplay-Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/FiraSansExtraCondensed-900-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/img/webp/dsc6113.webp" as="image">
-  <link rel="stylesheet" href="assets/fonts/fonts.css?v=13">
-  <link rel="stylesheet" href="css/main.css?v=13">
-  <script>document.documentElement.classList.add('js');</script>
+  <link rel="stylesheet" href="css/base.css?v=8">
+  <link rel="stylesheet" href="css/main.css?v=8">
+  <script>(function(d){d.classList.add('js');if(!/[?&]still\b/.test(location.search)&&!matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('intro');setTimeout(function(){d.classList.remove('intro')},3000);}})(document.documentElement);</script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -22,282 +22,433 @@
 
 <header class="bar" data-bar>
   <a class="bar__brand" href="#top" aria-label="ФК «Авангард» Лозова, на початок">
-    <svg class="bar__crest" aria-hidden="true"><use href="#emblem"/></svg>
+    <span class="crest" aria-hidden="true" data-crest>
+      <svg class="crest__base"><use href="#emblem"/></svg>
+      <span class="crest__fill"><svg><use href="#emblem"/></svg></span>
+    </span>
     <span class="bar__name">Авангард</span>
   </a>
   <nav class="bar__nav" aria-label="Розділи">
-    <a href="#match">Матч</a>
-    <a href="#news">Новини</a>
-    <a href="#table">Таблиця</a>
+    <a href="#season">Сезон</a>
     <a href="#squad">Склад</a>
-    <a href="#academy">Академія</a>
     <a href="#history">Історія</a>
+    <a href="#news">Новини</a>
+    <a href="#academy">Академія</a>
   </nav>
+  <a class="btn btn--gold bar__action" href="#match">Наступний матч</a>
   <details class="menu">
-    <summary class="menu__toggle">Меню</summary>
+    <summary class="menu__toggle"><span>Меню</span></summary>
     <nav class="menu__sheet" aria-label="Розділи">
       <a href="#match">Наступний матч</a>
-      <a href="#news">Новини</a>
-      <a href="#table">Таблиця</a>
+      <a href="#season">Сезон</a>
       <a href="#squad">Склад</a>
-      <a href="#academy">Академія</a>
       <a href="#history">Історія</a>
+      <a href="#news">Новини</a>
+      <a href="#academy">Академія</a>
     </nav>
   </details>
 </header>
 
 <main id="main">
 
-  <section class="hero" id="top" aria-labelledby="hero-title">
-    <img class="hero__photo" src="assets/img/webp/dsc6113.webp" width="1800" height="1202" fetchpriority="high"
-         alt="Гравці «Авангарду» в жовтій формі з прапорами України йдуть з поля">
-    <div class="hero__strip">
-      <svg class="hero__crest" aria-hidden="true"><use href="#emblem"/></svg>
-      <div>
-        <h1 class="hero__title" id="hero-title">Авангард Лозова</h1>
-        <p class="hero__meta">Футбольний клуб з&nbsp;1969 року. Друга ліга ПФЛ, група&nbsp;Б.</p>
+  <!-- 1. HERO: the lancet of the crest is the window onto the team -->
+  <section class="hero" id="top" aria-labelledby="hero-title" data-hero>
+    <div class="hero__stage">
+      <div class="hero__window" data-window>
+        <img class="hero__photo" data-photo src="assets/img/webp/dsc6113.webp" width="1800" height="1202"
+             alt="Гравці «Авангарду» в жовтій формі з прапорами України виходять з поля" fetchpriority="high">
       </div>
-      <a class="hero__next" href="#match">Наступний матч: неділя, 15.11, 11:30, у&nbsp;гостях у&nbsp;«Полтави-2»</a>
+      <div class="hero__copy" data-hero-copy>
+        <h1 class="hero__title" id="hero-title">
+          <span class="line"><span>Авангард</span></span>
+          <span class="line"><span>Лозова</span></span>
+        </h1>
+        <p class="hero__lede">Футбольний клуб з Лозової, заснований 1969&nbsp;року. Сезон 2026/27 грає в Другій лізі ПФЛ.</p>
+        <div class="hero__actions">
+          <a class="btn btn--gold" href="#match">Наступний матч</a>
+          <a class="link-arrow" href="#squad">Склад команди</a>
+        </div>
+      </div>
+      <div class="hero__statement" data-statement>
+        <h2 class="statement">Професійний клуб</h2>
+        <p class="statement__note">18 червня 2026 року 33-тя конференція ПФЛ уперше в історії надала «Авангарду» професійний статус.</p>
+      </div>
     </div>
   </section>
 
+  <!-- 2. NEXT MATCH: a gold field, the fixture set like a departures board -->
   <section class="match" id="match" aria-labelledby="match-title">
-    <div class="match__main">
-      <h2 class="label" id="match-title">Наступний матч, 15-й тур</h2>
-      <p class="fixture" data-fixture data-kickoff="2026-11-15T11:30:00+02:00">
-        <span class="fixture__team">Полтава-2</span>
-        <span class="fixture__team">Авангард</span>
-      </p>
-      <p class="fixture__when">Неділя, 15 листопада, 11:30<br>Кременчук, «Кремінь-Арена» імені О.&nbsp;Бабаєва</p>
-      <div class="countdown" data-countdown>
-        <p class="visually-hidden" data-cd-sr aria-live="polite">Початок у&nbsp;неділю, 15 листопада, о&nbsp;11:30</p>
-        <p class="countdown__label" aria-hidden="true">До початку</p>
-        <p class="countdown__value" aria-hidden="true"></p>
+    <div class="match__inner">
+      <h2 class="match__title" id="match-title">Наступний матч</h2>
+
+      <div class="fixture" data-fixture data-kickoff="2026-11-15T11:30:00+02:00">
+        <div class="fixture__team">
+          <img src="assets/img/teams/poltava2.PNG" width="150" height="150" alt="" loading="lazy">
+          <span class="flap" data-flap>Полтава-2</span>
+        </div>
+        <div class="fixture__time">
+          <span class="flap flap--time" data-flap>11:30</span>
+          <span class="fixture__day">неділя, 15 листопада</span>
+        </div>
+        <div class="fixture__team fixture__team--us">
+          <svg aria-hidden="true"><use href="#emblem"/></svg>
+          <span class="flap" data-flap>Авангард</span>
+        </div>
       </div>
-      <p class="match__links">
-        <a class="link" href="https://pfl.ua/calendar/1355" data-ics>Додати в&nbsp;календар</a>
-        <a class="link" href="https://www.youtube.com/user/PFLUkraine" rel="noopener">Трансляція на каналі ПФЛ</a>
-      </p>
+
+      <div class="match__cols">
+        <div class="match__left">
+        <p class="fixture__where">«Кремінь-Арена» імені О.&nbsp;Бабаєва, Кременчук. 15-й&nbsp;тур Другої ліги, група&nbsp;Б.</p>
+
+        <div class="countdown" data-countdown>
+        <p class="visually-hidden" data-cd-sr aria-live="polite">Початок у неділю, 15 листопада, о 11:30</p>
+          <p class="countdown__label">До початку</p>
+          <p class="countdown__value" aria-hidden="true"><span data-cd="d">2</span><small>дн</small> <span data-cd="h">17</span><small>год</small> <span data-cd="m">00</span><small>хв</small> <span data-cd="s" class="countdown__s">00</span><small class="countdown__s">с</small></p>
+        </div>
+
+        <div class="match__actions">
+          <a class="btn btn--ink" href="https://pfl.ua/calendar/1355" data-ics>Додати в календар</a>
+          <a class="link-arrow link-arrow--ink" href="https://www.youtube.com/user/PFLUkraine" rel="noopener">Трансляція на каналі ПФЛ</a>
+        </div>
+        </div>
+        <section class="board" aria-labelledby="board-title">
+          <h3 class="board__title" id="board-title">Далі за розкладом</h3>
+          <ol class="board__rows">
+            <li class="board__row">
+              <span class="board__date">22.11, нд</span>
+              <span class="board__teams"><b>«Авангард»</b> проти «Металурга»</span>
+              <span class="board__note">11:30, домашній матч</span>
+            </li>
+            <li class="board__row">
+              <span class="board__date">28.11, сб</span>
+              <span class="board__teams">«Пенуел» проти <b>«Авангарду»</b></span>
+              <span class="board__note">Кривий Ріг, час уточнюється</span>
+            </li>
+            <li class="board__row">
+              <span class="board__date">20.03, сб</span>
+              <span class="board__teams"><b>«Авангард»</b> проти «Ребела»</span>
+              <span class="board__note">перший матч після зимової перерви</span>
+            </li>
+          </ol>
+        </section>
+      </div>
     </div>
-    <section class="later" aria-labelledby="later-title">
-      <h3 class="label" id="later-title">Далі</h3>
-      <ol>
-        <li><span class="later__date">нд, 22.11, 11:30</span><span>«Авангард» проти «Металурга»</span></li>
-        <li><span class="later__date">сб, 28.11</span><span>«Пенуел» проти «Авангарду», Кривий Ріг</span></li>
-        <li><span class="later__date">сб, 20.03</span><span>«Авангард» проти «Ребела», після зимової перерви</span></li>
-      </ol>
-    </section>
   </section>
 
+  <!-- 3. SEASON: the run and the table -->
+  <section class="season" id="season" aria-labelledby="season-title">
+    <div class="season__head">
+      <h2 class="h2" id="season-title">Перший сезон у Другій лізі</h2>
+      <p class="season__lede">Почали з чотирьох матчів без перемог. Потім виграли п’ять поспіль, і кожну гру з різницею в один м’яч. Зараз п’яті, за очко від третього місця.</p>
+      <div class="table-wrap">
+        <h3 class="h3">Група Б після 14-го туру</h3>
+        <table class="table">
+          <thead>
+            <tr><th scope="col">#</th><th scope="col">Команда</th><th scope="col"><abbr title="Ігри">І</abbr></th><th scope="col"><abbr title="Виграші, нічиї, поразки">В-Н-П</abbr></th><th scope="col">М’ячі</th><th scope="col"><abbr title="Очки">О</abbr></th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>Карбон</td><td>11</td><td>6-4-1</td><td>24:12</td><td>22</td></tr>
+            <tr><td>2</td><td>Тростянець</td><td>13</td><td>5-5-3</td><td>17:11</td><td>20</td></tr>
+            <tr><td>3</td><td>Ребел</td><td>12</td><td>5-3-4</td><td>22:16</td><td>18</td></tr>
+            <tr><td>4</td><td>Атлет</td><td>12</td><td>4-5-3</td><td>19:15</td><td>17</td></tr>
+            <tr class="is-us"><td>5</td><td>Авангард</td><td>12</td><td>5-2-5</td><td>12:14</td><td>17</td></tr>
+            <tr><td>6</td><td>Олександрія-2</td><td>13</td><td>4-4-5</td><td>13:13</td><td>16</td></tr>
+            <tr><td>7</td><td>Металург</td><td>12</td><td>4-3-5</td><td>12:15</td><td>15</td></tr>
+            <tr><td>8</td><td>Полтава-2</td><td>12</td><td>4-2-6</td><td>10:13</td><td>14</td></tr>
+            <tr><td>9</td><td>Пенуел</td><td>13</td><td>3-2-8</td><td>10:30</td><td>11</td></tr>
+          </tbody>
+        </table>
+        <p class="note">Джерело: <a href="https://pfl.ua/standing/1355" rel="noopener">таблиця ПФЛ</a>. У клубів різна кількість матчів: щотуру одна з дев’яти команд групи не грає, а один матч перенесено.</p>
+      </div>
+    </div>
+
+    <div class="run" data-run>
+      <ol class="run__list">
+        <li class="res res--l"><span class="res__score">0:2</span><span class="res__opp">Тростянець</span><span class="res__meta">8.08, виїзд</span></li>
+        <li class="res res--d"><span class="res__score">1:1</span><span class="res__opp">Олександрія-2</span><span class="res__meta">15.08, Гладкий 90+2</span></li>
+        <li class="res res--l"><span class="res__score">2:3</span><span class="res__opp">Атлет</span><span class="res__meta">29.08, Галушка, Гребенюк</span></li>
+        <li class="res res--l"><span class="res__score">0:1</span><span class="res__opp">Карбон</span><span class="res__meta">4.09, виїзд</span></li>
+        <li class="res res--w res--streak"><span class="res__score">1:0</span><span class="res__opp">Полтава-2</span><span class="res__meta">13.09, Череватенко</span></li>
+        <li class="res res--w res--streak"><span class="res__score">2:1</span><span class="res__opp">Металург</span><span class="res__meta">20.09, виїзд. Воловик, Гребенюк 90+4</span></li>
+        <li class="res res--w res--streak"><span class="res__score">1:0</span><span class="res__opp">Пенуел</span><span class="res__meta">26.09, Гребенюк</span></li>
+        <li class="res res--w res--streak"><span class="res__score">2:1</span><span class="res__opp">Ребел</span><span class="res__meta">3.10, виїзд. Галушка, Соколан</span></li>
+        <li class="res res--w res--streak"><span class="res__score">1:0</span><span class="res__opp">Тростянець</span><span class="res__meta">17.10, Сухомлин</span></li>
+        <li class="res res--l"><span class="res__score">1:3</span><span class="res__opp">Олександрія-2</span><span class="res__meta">25.10, виїзд. Галушка</span></li>
+        <li class="res res--l"><span class="res__score">0:1</span><span class="res__opp">Атлет</span><span class="res__meta">1.11, виїзд</span></li>
+        <li class="res res--d"><span class="res__score">1:1</span><span class="res__opp">Карбон</span><span class="res__meta">8.11, Череватенко</span></li>
+      </ol>
+      <p class="run__streak" data-streak>П’ять перемог поспіль</p>
+      <p class="run__legend">Першими вказано голи «Авангарду». Золотим позначено перемоги.</p>
+    </div>
+
+    <div class="season__grid">
+      <dl class="scorers">
+        <dt class="h3">Бомбардири</dt>
+        <dd><b>3</b> Владислав Галушка</dd>
+        <dd><b>3</b> Кирило Гребенюк</dd>
+        <dd><b>2</b> Павло Череватенко</dd>
+        <dd><b>1</b> Гладкий, Воловик, Соколан, Сухомлин</dd>
+      </dl>
+
+      <figure class="season__photo">
+        <img src="assets/img/webp/dsc3943.webp" width="1800" height="1202" loading="lazy"
+             alt="Футболісти «Авангарду» в білій формі після гола в матчі з «Тростянцем»">
+        <figcaption>17 жовтня, 1:0 з «Тростянцем». П’ята перемога поспіль.</figcaption>
+      </figure>
+
+    </div>
+  </section>
+
+  <!-- 4. SQUAD: the team photo, with the local players a tap away -->
+  <section class="squad" id="squad" aria-labelledby="squad-title" data-squad>
+    <div class="squad__head">
+      <h2 class="h2" id="squad-title">Склад на сезон 2026/27</h2>
+      <p class="squad__lede">Двадцять один гравець. Семеро народилися й виросли на Лозівщині.</p>
+      <figure class="coach">
+        <img src="assets/img/webp/img1311-720.webp" width="720" height="480" loading="lazy" decoding="async" alt="Головний тренер Ігор Рахаєв у жовтій формі клубу">
+        <figcaption><b>Ігор Рахаєв</b> очолює команду з 2023 року. У сезоні 2013/14 виграв бронзу чемпіонату України в тренерському штабі «Металіста».</figcaption>
+      </figure>
+      <div class="filters" role="group" aria-label="Показати гравців">
+        <button class="chip is-on" type="button" data-filter="all" aria-pressed="true">Усі</button>
+        <button class="chip" type="button" data-filter="local" aria-pressed="false">З Лозівщини</button>
+        <button class="chip" type="button" data-filter="gk" aria-pressed="false">Воротарі</button>
+        <button class="chip" type="button" data-filter="df" aria-pressed="false">Захисники</button>
+        <button class="chip" type="button" data-filter="mf" aria-pressed="false">Півзахисники</button>
+        <button class="chip" type="button" data-filter="fw" aria-pressed="false">Нападники</button>
+      </div>
+      <p class="squad__count" aria-live="polite" data-count></p>
+    </div>
+
+    <ul class="roster" data-roster>
+      <li class="p" data-pos="gk"><a class="p__link" href="https://avangard-lozova.com/team/maksim-gerasimov"><span class="p__n" aria-hidden="true">1</span><img src="assets/img/webp/p1-360.webp" srcset="assets/img/webp/p1-360.webp 360w, assets/img/webp/p1.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__name">Максим <b>Герасимов</b></span><span class="p__role">№1, воротар</span></a></li>
+      <li class="p" data-pos="gk"><a class="p__link" href="https://avangard-lozova.com/team/valerij-yurchuk"><span class="p__n" aria-hidden="true">12</span><img src="assets/img/webp/p12-360.webp" srcset="assets/img/webp/p12-360.webp 360w, assets/img/webp/p12.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__name">Валерій <b>Юрчук</b></span><span class="p__role">№12, воротар</span></a></li>
+      <li class="p" data-pos="df"><a class="p__link" href="https://avangard-lozova.com/team/pavlo-cherevatenko"><span class="p__n" aria-hidden="true">45</span><img src="assets/img/webp/p45-360.webp" srcset="assets/img/webp/p45-360.webp 360w, assets/img/webp/p45.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__name">Павло <b>Череватенко</b></span><span class="p__role">№45, захисник</span></a></li>
+      <li class="p" data-pos="df" data-local="Лозова"><a class="p__link" href="https://avangard-lozova.com/team/oleg-volovik"><span class="p__n" aria-hidden="true">19</span><img src="assets/img/webp/p19-360.webp" srcset="assets/img/webp/p19-360.webp 360w, assets/img/webp/p19.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__name">Олег <b>Воловик</b></span><span class="p__role">№19, захисник, Лозова</span></a></li>
+      <li class="p" data-pos="df" data-local="Панютине"><a class="p__link" href="https://avangard-lozova.com/team/yevgen-vepriczkij"><span class="p__n" aria-hidden="true">27</span><img src="assets/img/webp/p27-360.webp" srcset="assets/img/webp/p27-360.webp 360w, assets/img/webp/p27.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__name">Євген <b>Веприцький</b></span><span class="p__role">№27, захисник, Панютине</span></a></li>
+      <li class="p" data-pos="df"><a class="p__link" href="https://avangard-lozova.com/team/maksim-bilous"><span class="p__n" aria-hidden="true">2</span><img src="assets/img/webp/p2-360.webp" srcset="assets/img/webp/p2-360.webp 360w, assets/img/webp/p2.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__name">Максим <b>Білоус</b></span><span class="p__role">№2, захисник</span></a></li>
+      <li class="p" data-pos="df"><a class="p__link" href="https://avangard-lozova.com/team/yevgen-selin"><span class="p__n" aria-hidden="true">33</span><img src="assets/img/webp/p33-360.webp" srcset="assets/img/webp/p33-360.webp 360w, assets/img/webp/p33.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__name">Євген <b>Селін</b></span><span class="p__role">№33, захисник</span></a></li>
+      <li class="p" data-pos="df"><a class="p__link" href="https://avangard-lozova.com/team/maksim-zhichikov"><span class="p__n" aria-hidden="true">29</span><img src="assets/img/webp/p29-360.webp" srcset="assets/img/webp/p29-360.webp 360w, assets/img/webp/p29.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__name">Максим <b>Жичиков</b></span><span class="p__role">№29, захисник</span></a></li>
+      <li class="p" data-pos="df"><a class="p__link" href="https://avangard-lozova.com/team/oleksandr-migunov"><span class="p__n" aria-hidden="true">13</span><img src="assets/img/webp/p13-360.webp" srcset="assets/img/webp/p13-360.webp 360w, assets/img/webp/p13.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__name">Олександр <b>Мігунов</b></span><span class="p__role">№13, захисник</span></a></li>
+      <li class="p" data-pos="mf"><a class="p__link" href="https://avangard-lozova.com/team/mikita-polyulyah"><span class="p__n" aria-hidden="true">77</span><img src="assets/img/webp/p77-360.webp" srcset="assets/img/webp/p77-360.webp 360w, assets/img/webp/p77.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__name">Микита <b>Полюлях</b></span><span class="p__role">№77, півзахисник</span></a></li>
+      <li class="p" data-pos="mf" data-local="Лозова"><a class="p__link" href="https://avangard-lozova.com/team/roman-borovik"><span class="p__n" aria-hidden="true">8</span><img src="assets/img/webp/p8-360.webp" srcset="assets/img/webp/p8-360.webp 360w, assets/img/webp/p8.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__name">Роман <b>Боровик</b></span><span class="p__role">№8, півзахисник, Лозова</span></a></li>
+      <li class="p" data-pos="mf" data-local="Полтавське"><a class="p__link" href="https://avangard-lozova.com/team/vladislav-galushka"><span class="p__n" aria-hidden="true">10</span><img src="assets/img/webp/p10-360.webp" srcset="assets/img/webp/p10-360.webp 360w, assets/img/webp/p10.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__name">Владислав <b>Галушка</b></span><span class="p__role">№10, півзахисник, Полтавське</span></a></li>
+      <li class="p" data-pos="mf"><a class="p__link" href="https://avangard-lozova.com/team/yurij-glushhuk"><span class="p__n" aria-hidden="true">5</span><img src="assets/img/webp/p5-360.webp" srcset="assets/img/webp/p5-360.webp 360w, assets/img/webp/p5.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__name">Юрій <b>Глущук</b></span><span class="p__role">№5, півзахисник</span></a></li>
+      <li class="p" data-pos="mf"><a class="p__link" href="https://avangard-lozova.com/team/bogdan-shmigalskiy"><span class="p__n" aria-hidden="true">21</span><img src="assets/img/webp/p21-360.webp" srcset="assets/img/webp/p21-360.webp 360w, assets/img/webp/p21.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__name">Богдан <b>Шмигельський</b></span><span class="p__role">№21, півзахисник</span></a></li>
+      <li class="p" data-pos="mf" data-local="Надеждівка"><a class="p__link" href="https://avangard-lozova.com/team/eduard-suhomlin"><span class="p__n" aria-hidden="true">6</span><img src="assets/img/webp/p6-360.webp" srcset="assets/img/webp/p6-360.webp 360w, assets/img/webp/p6.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__name">Едуард <b>Сухомлин</b></span><span class="p__role">№6, півзахисник, Надеждівка</span></a></li>
+      <li class="p" data-pos="mf"><a class="p__link" href="https://avangard-lozova.com/team/oleksij-shvecz"><span class="p__n" aria-hidden="true">70</span><img src="assets/img/webp/p70-360.webp" srcset="assets/img/webp/p70-360.webp 360w, assets/img/webp/p70.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__name">Олексій <b>Швець</b></span><span class="p__role">№70, півзахисник</span></a></li>
+      <li class="p" data-pos="mf"><a class="p__link" href="https://avangard-lozova.com/team/sergij-shestakov"><span class="p__n" aria-hidden="true">17</span><img src="assets/img/webp/p17-360.webp" srcset="assets/img/webp/p17-360.webp 360w, assets/img/webp/p17.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__name">Сергій <b>Шестаков</b></span><span class="p__role">№17, півзахисник</span></a></li>
+      <li class="p" data-pos="fw" data-local="Лозова"><a class="p__link" href="https://avangard-lozova.com/team/oleksandr-gladkij"><span class="p__n" aria-hidden="true">11</span><img src="assets/img/webp/p11-360.webp" srcset="assets/img/webp/p11-360.webp 360w, assets/img/webp/p11.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__name">Олександр <b>Гладкий</b></span><span class="p__role">№11, нападник, Лозова</span></a></li>
+      <li class="p" data-pos="fw" data-local="Лозова"><a class="p__link" href="https://avangard-lozova.com/team/kirilo-grebenyuk"><span class="p__n" aria-hidden="true">7</span><img src="assets/img/webp/p7-360.webp" srcset="assets/img/webp/p7-360.webp 360w, assets/img/webp/p7.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__name">Кирило <b>Гребенюк</b></span><span class="p__role">№7, нападник, Лозова</span></a></li>
+      <li class="p" data-pos="fw"><a class="p__link" href="https://avangard-lozova.com/team/yevgenij-sokolan"><span class="p__n" aria-hidden="true">9</span><img src="assets/img/webp/p9-360.webp" srcset="assets/img/webp/p9-360.webp 360w, assets/img/webp/p9.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__name">Євген <b>Соколан</b></span><span class="p__role">№9, нападник</span></a></li>
+      <li class="p" data-pos="fw"><a class="p__link" href="https://avangard-lozova.com/team/daniil-smirnov"><span class="p__n" aria-hidden="true">4</span><img src="assets/img/webp/p4-360.webp" srcset="assets/img/webp/p4-360.webp 360w, assets/img/webp/p4.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__name">Данііл <b>Смірнов</b></span><span class="p__role">№4, нападник</span></a></li>
+    </ul>
+  </section>
+
+  <!-- 5. THE SEASON AS ONE MATCH: twelve goals at their real minutes, the scorer in the crest -->
+  <section class="match90" id="goals" aria-labelledby="goals-title" data-goals>
+    <div class="match90__pin">
+      <div class="match90__figure" aria-hidden="true">
+        <span class="match90__lancet"></span>
+        <img class="match90__scorer" data-scorer src="assets/img/webp/p7.webp" width="720" height="900" alt="">
+      </div>
+      <div class="match90__text">
+        <h2 class="h2" id="goals-title">Сезон в одному матчі</h2>
+        <p class="match90__lede">Усі дванадцять голів «Авангарду» в Другій лізі на тих хвилинах, коли їх забили. Два прийшли вже в доданий час.</p>
+        <div class="match90__board">
+          <p class="clock" aria-hidden="true"><span data-clock>90</span><span class="clock__board" data-plus><span data-added>+4</span></span></p>
+          <p class="tally"><b data-tally>12</b> з 12 голів</p>
+        </div>
+        <ol class="goals" data-goal-list>
+          <li class="goal" data-min="19" data-n="6"><span class="goal__min">19’</span><span class="goal__who">Едуард Сухомлин</span><span class="goal__vs">«Тростянець», 17.10</span></li>
+          <li class="goal" data-min="21" data-n="45"><span class="goal__min">21’</span><span class="goal__who">Павло Череватенко</span><span class="goal__vs">«Полтава-2», 13.09</span></li>
+          <li class="goal" data-min="25" data-n="7"><span class="goal__min">25’</span><span class="goal__who">Кирило Гребенюк</span><span class="goal__vs">«Пенуел», 26.09</span></li>
+          <li class="goal" data-min="29" data-n="45"><span class="goal__min">29’</span><span class="goal__who">Павло Череватенко</span><span class="goal__vs">«Карбон», 8.11</span></li>
+          <li class="goal" data-min="43" data-n="10"><span class="goal__min">43’</span><span class="goal__who">Владислав Галушка</span><span class="goal__vs">«Ребел», 3.10</span></li>
+          <li class="goal" data-min="51" data-n="10"><span class="goal__min">51’</span><span class="goal__who">Владислав Галушка</span><span class="goal__vs">«Атлет», 29.08</span></li>
+          <li class="goal" data-min="58" data-n="10"><span class="goal__min">58’</span><span class="goal__who">Владислав Галушка</span><span class="goal__vs">«Олександрія-2», 25.10</span></li>
+          <li class="goal" data-min="62" data-n="19"><span class="goal__min">62’</span><span class="goal__who">Олег Воловик</span><span class="goal__vs">«Металург», 20.09</span></li>
+          <li class="goal" data-min="80" data-n="7"><span class="goal__min">80’</span><span class="goal__who">Кирило Гребенюк</span><span class="goal__vs">«Атлет», 29.08</span></li>
+          <li class="goal" data-min="84" data-n="9"><span class="goal__min">84’</span><span class="goal__who">Євген Соколан</span><span class="goal__vs">«Ребел», 3.10</span></li>
+          <li class="goal goal--late" data-min="92" data-n="11"><span class="goal__min">90+2’</span><span class="goal__who">Олександр Гладкий</span><span class="goal__vs">«Олександрія-2», 15.08</span></li>
+          <li class="goal goal--late" data-min="94" data-n="7"><span class="goal__min">90+4’</span><span class="goal__who">Кирило Гребенюк, пенальті</span><span class="goal__vs">«Металург», 20.09</span></li>
+        </ol>
+        <p class="match90__note">Гру з «Металургом» 19 вересня зупинила повітряна тривога. Команди дограли її наступного дня, і на 90+4-й хвилині Гребенюк реалізував переможний пенальті.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5b. THE HOMETOWN GOAL -->
+  <section class="hometown" id="hladkyi" aria-labelledby="hometown-title">
+    <div class="hometown__text">
+      <h2 class="h2" id="hometown-title">Перший гол забив лозівчанин</h2>
+      <p class="hometown__lede">15 серпня 2026 року, «Олександрія-2», 0:1 на табло. На другій доданій хвилині Олександр Гладкий зрівняв рахунок. Це перший гол «Авангарду» в професійному футболі.</p>
+      <ul class="facts">
+        <li>Народився в <b>Лозовій</b> 1987 року, займався в місцевій ДЮСШ</li>
+        <li>У <b>2024</b> році повернувся в рідний клуб гравцем і спортивним директором</li>
+      </ul>
+    </div>
+    <figure class="hometown__then">
+      <img src="assets/img/webp/hladkyi-2009.webp" width="800" height="800" loading="lazy" alt="Олександр Гладкий у білій формі «Шахтаря» на полі, 2009 рік">
+      <figcaption>Вересень 2009 року, «Шахтар». У травні того ж року Гладкий виграв з командою Кубок УЄФА. Двічі чемпіон України, тричі володар Кубка, грав за збірну з 2007 по 2015 рік.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 6. HISTORY: a horizontal run of years -->
+  <section class="history" id="history" aria-labelledby="history-title" data-history>
+    <div class="history__pin">
+      <h2 class="h2 history__title" id="history-title">Від станції до Другої ліги</h2>
+      <ol class="years" data-years>
+        <li class="year year--photo">
+          <img src="assets/img/webp/depot-1885.webp" width="1600" height="1200" loading="lazy" alt="Цегляне паровозне депо станції Лозова і степ до горизонту, розфарбоване фото 1880-х років">
+          <p class="year__n">1869</p>
+          <p class="year__t">Навколо нової станції Курсько-Харківсько-Азовської залізниці виростає місто. Рівно через сто років тут з’явиться «Авангард».</p>
+        </li>
+        <li class="year">
+          <p class="year__n">1969</p>
+          <p class="year__t">У Лозовій засновують «Авангард». На емблемі досі є ця дата і літера «А», схожа на ракету.</p>
+        </li>
+        <li class="year">
+          <p class="year__n">1988</p>
+          <p class="year__t">«Авангард» виграє Кубок УРСР серед колективів фізкультури. Фінал з бердичівською «Зіркою»: 1:1, 2:2 і 6:5 у серії пенальті.</p>
+        </li>
+        <li class="year">
+          <p class="year__n">1992</p>
+          <p class="year__t">«Авангард» учетверте стає чемпіоном Харківської області, після 1982, 1983 і 1988 років.</p>
+        </li>
+        <li class="year">
+          <p class="year__n">2021</p>
+          <p class="year__t">Клуб відроджують після років без команди. Того ж року відкривається дитяча академія.</p>
+        </li>
+        <li class="year year--photo">
+          <img src="assets/img/webp/img1314.webp" width="1800" height="1013" loading="lazy" alt="Команда і керівництво «Авангарду» з медалями та Кубком України серед аматорів">
+          <p class="year__n">2026</p>
+          <p class="year__t">13 травня «Авангард» виграє Кубок України серед аматорів, 2:0 у фіналі з «Маяком» із Сарн. 18 червня клуб отримує професійний статус.</p>
+        </li>
+        <li class="year year--photo">
+          <img src="assets/img/webp/img1302.webp" width="1800" height="1202" loading="lazy" alt="Гравці «Авангарду» в жовтій формі під час матчу з «Атлетом»">
+          <p class="year__n">8.08.2026</p>
+          <p class="year__t">Перший матч у Другій лізі ПФЛ. Через тиждень Олександр Гладкий забиває перший професійний гол клубу.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 7. HOME: the town, the station, the stadium that waits -->
+  <section class="town" id="lozova" aria-labelledby="town-title">
+    <figure class="town__photo" data-town-photo>
+      <div class="town__frame">
+      <img class="town__then" src="assets/img/webp/station-1880.webp" width="1500" height="1180" loading="lazy"
+           alt="Дерев’яний вокзал станції Лозова, розфарбоване фото 1880 року">
+      <img class="town__now" src="assets/img/webp/station-night.webp" width="1280" height="960" loading="lazy"
+           alt="Освітлений вокзал станції Лозова вночі, 2008 рік">
+      </div>
+      <figcaption class="town__cap"><span data-year>2008</span> Вокзал станції Лозова</figcaption>
+    </figure>
+    <div class="town__text">
+      <h2 class="h2" id="town-title">Вдома за сотні кілометрів</h2>
+      <div class="town__cols">
+        <p>Лозова виросла навколо залізничної станції. Тут сходяться колії на Харків, Полтаву, Слов’янськ і Запоріжжя, а потяги міняють електровози постійного струму на електровози змінного. Тому на гербі міста чотири схрещені стріли.</p>
+        <p>Міський стадіон «Локомотив» колись збудували залізничники. 2 червня 2026 року його пошкодив удар дронів. Тому домашні ігри сезону «Авангард» проводить на стадіоні «Лівий берег» під Києвом.</p>
+        <p>Матч з «Металургом» 19 вересня зупинила повітряна тривога. Команди дограли його наступного дня, і на 90+4-й хвилині Гребенюк реалізував переможний пенальті.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. NEWS: one lead, three short -->
   <section class="news" id="news" aria-labelledby="news-title">
     <div class="news__head">
       <h2 class="h2" id="news-title">Новини</h2>
-      <a class="link" href="https://avangard-lozova.com/news">Усі новини</a>
+      <a class="link-arrow" href="https://avangard-lozova.com/news">Усі новини</a>
     </div>
     <div class="news__grid">
       <article class="lead">
         <a class="lead__media" href="https://avangard-lozova.com/news/avangard-lozova-ta-karbon-cherkasi-rozijshlisya-bojovoyu-nichiyeyu">
           <img src="assets/img/webp/img1007.webp" width="1800" height="1202" loading="lazy" alt="Микита Полюлях у білій формі «Авангарду» в матчі з «Карбоном»">
         </a>
-        <p class="news__date"><time datetime="2026-11-09">9 листопада</time></p>
-        <h3 class="lead__title"><a href="https://avangard-lozova.com/news/avangard-lozova-ta-karbon-cherkasi-rozijshlisya-bojovoyu-nichiyeyu">«Авангард» і&nbsp;«Карбон» розійшлися бойовою нічиєю</a></h3>
-        <p class="lead__text">Матч 14-го туру з&nbsp;лідером групи відбувся попри кілька повітряних тривог. За «Авангард» забив Павло Череватенко. <a class="link" href="https://www.youtube.com/watch?v=gcwdo7TN4z0" rel="noopener">Відео матчу</a></p>
+        <p class="lead__date"><time datetime="2026-11-09">9 листопада</time></p>
+        <h3 class="lead__title"><a href="https://avangard-lozova.com/news/avangard-lozova-ta-karbon-cherkasi-rozijshlisya-bojovoyu-nichiyeyu">Нічия з лідером: 1:1 з «Карбоном»</a></h3>
+        <p class="lead__text">Матч 14-го туру з лідером групи відбувся попри кілька повітряних тривог. За «Авангард» забив Павло Череватенко.</p>
+        <a class="link-arrow" href="https://www.youtube.com/watch?v=gcwdo7TN4z0" rel="noopener">Відео матчу на YouTube</a>
       </article>
       <ul class="briefs">
-        <li><p class="news__date"><time datetime="2026-11-04">4 листопада</time></p><h3 class="brief__title"><a href="https://avangard-lozova.com/news/vladislav-galushka-zakripivsya-sered-najkrashhih-gravcziv-za-versiyeyu-pfl">Владислав Галушка серед найкращих гравців за версією ПФЛ</a></h3></li>
-        <li><p class="news__date"><time datetime="2026-11-01">1 листопада</time></p><h3 class="brief__title"><a href="https://avangard-lozova.com/news/avangard-lozova-postupayetsya-atletu-v-matchi-13-go-turu">«Авангард» поступився «Атлету» в&nbsp;13-му турі</a></h3></li>
-        <li><p class="news__date"><time datetime="2026-10-25">25 жовтня</time></p><h3 class="brief__title"><a href="https://avangard-lozova.com/news/avangard-lozova-postupayetsya-oleksandriyi-2">Перервалася серія з&nbsp;п’яти перемог: 1:3 з&nbsp;«Олександрією-2»</a></h3></li>
-        <li><p class="news__date"><time datetime="2026-09-15">15 вересня</time></p><h3 class="brief__title"><a href="https://avangard-lozova.com/news/igor-rahayev-najkrashhij-trener-shostogo-turu-drugoyi-ligi-pfl">Ігор Рахаєв найкращий тренер 6-го туру Другої ліги</a></h3></li>
+        <li class="brief">
+          <img src="assets/img/webp/dsc0063-720.webp" width="720" height="481" loading="lazy" decoding="async" alt="Владислав Галушка з м’ячем">
+          <div>
+            <p class="brief__date"><time datetime="2026-11-04">4 листопада</time></p>
+            <h3 class="brief__title"><a href="https://avangard-lozova.com/news/vladislav-galushka-zakripivsya-sered-najkrashhih-gravcziv-za-versiyeyu-pfl">Галушка серед найкращих гравців за версією ПФЛ</a></h3>
+          </div>
+        </li>
+        <li class="brief">
+          <img src="assets/img/webp/dsc2798-720.webp" width="720" height="481" loading="lazy" decoding="async" alt="Гравець «Авангарду» в білій формі веде м’яч">
+          <div>
+            <p class="brief__date"><time datetime="2026-11-01">1 листопада</time></p>
+            <h3 class="brief__title"><a href="https://avangard-lozova.com/news/avangard-lozova-postupayetsya-atletu-v-matchi-13-go-turu">Поразка від «Атлета» 0:1</a></h3>
+          </div>
+        </li>
+        <li class="brief">
+          <img src="assets/img/webp/dsc2813-720.webp" width="720" height="481" loading="lazy" decoding="async" alt="Гравці «Авангарду» в білій формі під час матчу">
+          <div>
+            <p class="brief__date"><time datetime="2026-09-15">15 вересня</time></p>
+            <h3 class="brief__title"><a href="https://avangard-lozova.com/news/igor-rahayev-najkrashhij-trener-shostogo-turu-drugoyi-ligi-pfl">Рахаєва визнали найкращим тренером 6-го туру</a></h3>
+          </div>
+        </li>
       </ul>
     </div>
   </section>
 
-  <section class="season" id="table" aria-labelledby="table-title">
-    <div class="season__grid">
-      <div class="season__table">
-        <h2 class="h2" id="table-title">Таблиця, група Б</h2>
-        <table class="table">
-          <thead><tr><th scope="col">#</th><th scope="col">Команда</th><th scope="col"><abbr title="Ігри">І</abbr></th><th scope="col"><abbr title="Виграші">В</abbr></th><th scope="col"><abbr title="Нічиї">Н</abbr></th><th scope="col"><abbr title="Поразки">П</abbr></th><th scope="col">М’ячі</th><th scope="col"><abbr title="Очки">О</abbr></th></tr></thead>
-          <tbody>
-            <tr><td>1</td><td>Карбон</td><td>11</td><td>6</td><td>4</td><td>1</td><td>24:12</td><td>22</td></tr>
-            <tr><td>2</td><td>Тростянець</td><td>13</td><td>5</td><td>5</td><td>3</td><td>17:11</td><td>20</td></tr>
-            <tr><td>3</td><td>Ребел</td><td>12</td><td>5</td><td>3</td><td>4</td><td>22:16</td><td>18</td></tr>
-            <tr><td>4</td><td>Атлет</td><td>12</td><td>4</td><td>5</td><td>3</td><td>19:15</td><td>17</td></tr>
-            <tr class="is-us"><td>5</td><td>Авангард</td><td>12</td><td>5</td><td>2</td><td>5</td><td>12:14</td><td>17</td></tr>
-            <tr><td>6</td><td>Олександрія-2</td><td>13</td><td>4</td><td>4</td><td>5</td><td>13:13</td><td>16</td></tr>
-            <tr><td>7</td><td>Металург</td><td>12</td><td>4</td><td>3</td><td>5</td><td>12:15</td><td>15</td></tr>
-            <tr><td>8</td><td>Полтава-2</td><td>12</td><td>4</td><td>2</td><td>6</td><td>10:13</td><td>14</td></tr>
-            <tr><td>9</td><td>Пенуел</td><td>13</td><td>3</td><td>2</td><td>8</td><td>10:30</td><td>11</td></tr>
-          </tbody>
-        </table>
-        <p class="note">Після 14-го туру, за даними <a href="https://pfl.ua/standing/1355" rel="noopener">ПФЛ</a>. Щотуру одна з&nbsp;дев’яти команд не грає, тому кількість матчів різна.</p>
-      </div>
-      <div class="season__results">
-        <h2 class="h2">Результати</h2>
-        <ol class="results">
-        <li class="r r--l"><span class="r__date">8.08</span><span class="r__home">Тростянець</span><span class="r__score">2:0</span><span class="r__away"><b>Авангард</b></span></li>
-        <li class="r r--d"><span class="r__date">15.08</span><span class="r__home"><b>Авангард</b></span><span class="r__score">1:1</span><span class="r__away">Олександрія-2</span></li>
-        <li class="r r--l"><span class="r__date">29.08</span><span class="r__home"><b>Авангард</b></span><span class="r__score">2:3</span><span class="r__away">Атлет</span></li>
-        <li class="r r--l"><span class="r__date">4.09</span><span class="r__home">Карбон</span><span class="r__score">1:0</span><span class="r__away"><b>Авангард</b></span></li>
-        <li class="r r--w"><span class="r__date">13.09</span><span class="r__home"><b>Авангард</b></span><span class="r__score">1:0</span><span class="r__away">Полтава-2</span></li>
-        <li class="r r--w"><span class="r__date">20.09</span><span class="r__home">Металург</span><span class="r__score">1:2</span><span class="r__away"><b>Авангард</b></span></li>
-        <li class="r r--w"><span class="r__date">26.09</span><span class="r__home"><b>Авангард</b></span><span class="r__score">1:0</span><span class="r__away">Пенуел</span></li>
-        <li class="r r--w"><span class="r__date">3.10</span><span class="r__home">Ребел</span><span class="r__score">1:2</span><span class="r__away"><b>Авангард</b></span></li>
-        <li class="r r--w"><span class="r__date">17.10</span><span class="r__home"><b>Авангард</b></span><span class="r__score">1:0</span><span class="r__away">Тростянець</span></li>
-        <li class="r r--l"><span class="r__date">25.10</span><span class="r__home">Олександрія-2</span><span class="r__score">3:1</span><span class="r__away"><b>Авангард</b></span></li>
-        <li class="r r--l"><span class="r__date">1.11</span><span class="r__home">Атлет</span><span class="r__score">1:0</span><span class="r__away"><b>Авангард</b></span></li>
-        <li class="r r--d"><span class="r__date">8.11</span><span class="r__home"><b>Авангард</b></span><span class="r__score">1:1</span><span class="r__away">Карбон</span></li>
-        </ol>
-      </div>
-    </div>
-    <div class="season__grid season__grid--goals">
-      <div>
-        <h2 class="h2">Бомбардири</h2>
-        <ol class="scorers">
-          <li><span>Владислав Галушка</span><b>3</b></li>
-          <li><span>Кирило Гребенюк</span><b>3</b></li>
-          <li><span>Павло Череватенко</span><b>2</b></li>
-          <li><span>Гладкий, Воловик, Соколан, Сухомлин</span><b>по 1</b></li>
-        </ol>
-      </div>
-      <div>
-        <h2 class="h2">Голи за хвилинами</h2>
-        <ol class="goal-list">
-          <li><span class="g__min">19’</span><span>Сухомлин <span class="g__vs">з&nbsp;«Тростянцем»</span></span></li>
-          <li><span class="g__min">21’</span><span>Череватенко <span class="g__vs">з&nbsp;«Полтавою-2»</span></span></li>
-          <li><span class="g__min">25’</span><span>Гребенюк <span class="g__vs">з&nbsp;«Пенуелом»</span></span></li>
-          <li><span class="g__min">29’</span><span>Череватенко <span class="g__vs">з&nbsp;«Карбоном»</span></span></li>
-          <li><span class="g__min">43’</span><span>Галушка <span class="g__vs">з&nbsp;«Ребелом»</span></span></li>
-          <li><span class="g__min">51’</span><span>Галушка <span class="g__vs">з&nbsp;«Атлетом»</span></span></li>
-          <li><span class="g__min">58’</span><span>Галушка <span class="g__vs">з&nbsp;«Олександрією-2»</span></span></li>
-          <li><span class="g__min">62’</span><span>Воловик <span class="g__vs">з&nbsp;«Металургом»</span></span></li>
-          <li><span class="g__min">80’</span><span>Гребенюк <span class="g__vs">з&nbsp;«Атлетом»</span></span></li>
-          <li><span class="g__min">84’</span><span>Соколан <span class="g__vs">з&nbsp;«Ребелом»</span></span></li>
-          <li><span class="g__min">90+2’</span><span>Гладкий <span class="g__vs">з&nbsp;«Олександрією-2»</span></span></li>
-          <li><span class="g__min">90+4’</span><span>Гребенюк, пенальті <span class="g__vs">з&nbsp;«Металургом»</span></span></li>
-        </ol>
-        <p class="note">Гру з&nbsp;«Металургом» 19 вересня зупинила повітряна тривога. Її дограли наступного дня, і&nbsp;на 90+4-й хвилині Гребенюк забив переможний пенальті.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="squad" id="squad" aria-labelledby="squad-title" data-squad>
-    <div class="squad__head">
-      <h2 class="h2" id="squad-title">Склад 2026/27</h2>
-      <p class="squad__coach">Головний тренер Ігор Рахаєв. Семеро з&nbsp;21 гравця виросли на&nbsp;Лозівщині.</p>
-      <p class="filters" role="group" aria-label="Показати гравців">
-        <button type="button" class="filter is-on" data-filter="all" aria-pressed="true">Усі</button>
-        <button type="button" class="filter" data-filter="local" aria-pressed="false">З&nbsp;Лозівщини</button>
-        <button type="button" class="filter" data-filter="gk" aria-pressed="false">Воротарі</button>
-        <button type="button" class="filter" data-filter="df" aria-pressed="false">Захисники</button>
-        <button type="button" class="filter" data-filter="mf" aria-pressed="false">Півзахисники</button>
-        <button type="button" class="filter" data-filter="fw" aria-pressed="false">Нападники</button>
-      </p>
-      <p class="squad__count" aria-live="polite" data-count></p>
-    </div>
-    <ul class="roster">
-      <li class="p" data-pos="gk"><a class="p__link" href="https://avangard-lozova.com/team/maksim-gerasimov"><img src="assets/img/webp/p1-360.webp" srcset="assets/img/webp/p1-360.webp 360w, assets/img/webp/p1.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__no">1</span><span class="p__name">Максим <b>Герасимов</b></span><span class="p__role">Воротар</span></a></li>
-      <li class="p" data-pos="gk"><a class="p__link" href="https://avangard-lozova.com/team/valerij-yurchuk"><img src="assets/img/webp/p12-360.webp" srcset="assets/img/webp/p12-360.webp 360w, assets/img/webp/p12.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__no">12</span><span class="p__name">Валерій <b>Юрчук</b></span><span class="p__role">Воротар</span></a></li>
-      <li class="p" data-pos="df"><a class="p__link" href="https://avangard-lozova.com/team/pavlo-cherevatenko"><img src="assets/img/webp/p45-360.webp" srcset="assets/img/webp/p45-360.webp 360w, assets/img/webp/p45.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__no">45</span><span class="p__name">Павло <b>Череватенко</b></span><span class="p__role">Захисник</span></a></li>
-      <li class="p" data-pos="df" data-local="Лозова"><a class="p__link" href="https://avangard-lozova.com/team/oleg-volovik"><img src="assets/img/webp/p19-360.webp" srcset="assets/img/webp/p19-360.webp 360w, assets/img/webp/p19.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__no">19</span><span class="p__name">Олег <b>Воловик</b></span><span class="p__role">Захисник, Лозова</span></a></li>
-      <li class="p" data-pos="df" data-local="Панютине"><a class="p__link" href="https://avangard-lozova.com/team/yevgen-vepriczkij"><img src="assets/img/webp/p27-360.webp" srcset="assets/img/webp/p27-360.webp 360w, assets/img/webp/p27.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__no">27</span><span class="p__name">Євген <b>Веприцький</b></span><span class="p__role">Захисник, Панютине</span></a></li>
-      <li class="p" data-pos="df"><a class="p__link" href="https://avangard-lozova.com/team/maksim-bilous"><img src="assets/img/webp/p2-360.webp" srcset="assets/img/webp/p2-360.webp 360w, assets/img/webp/p2.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__no">2</span><span class="p__name">Максим <b>Білоус</b></span><span class="p__role">Захисник</span></a></li>
-      <li class="p" data-pos="df"><a class="p__link" href="https://avangard-lozova.com/team/yevgen-selin"><img src="assets/img/webp/p33-360.webp" srcset="assets/img/webp/p33-360.webp 360w, assets/img/webp/p33.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__no">33</span><span class="p__name">Євген <b>Селін</b></span><span class="p__role">Захисник</span></a></li>
-      <li class="p" data-pos="df"><a class="p__link" href="https://avangard-lozova.com/team/maksim-zhichikov"><img src="assets/img/webp/p29-360.webp" srcset="assets/img/webp/p29-360.webp 360w, assets/img/webp/p29.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__no">29</span><span class="p__name">Максим <b>Жичиков</b></span><span class="p__role">Захисник</span></a></li>
-      <li class="p" data-pos="df"><a class="p__link" href="https://avangard-lozova.com/team/oleksandr-migunov"><img src="assets/img/webp/p13-360.webp" srcset="assets/img/webp/p13-360.webp 360w, assets/img/webp/p13.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__no">13</span><span class="p__name">Олександр <b>Мігунов</b></span><span class="p__role">Захисник</span></a></li>
-      <li class="p" data-pos="mf"><a class="p__link" href="https://avangard-lozova.com/team/mikita-polyulyah"><img src="assets/img/webp/p77-360.webp" srcset="assets/img/webp/p77-360.webp 360w, assets/img/webp/p77.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__no">77</span><span class="p__name">Микита <b>Полюлях</b></span><span class="p__role">Півзахисник</span></a></li>
-      <li class="p" data-pos="mf" data-local="Лозова"><a class="p__link" href="https://avangard-lozova.com/team/roman-borovik"><img src="assets/img/webp/p8-360.webp" srcset="assets/img/webp/p8-360.webp 360w, assets/img/webp/p8.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__no">8</span><span class="p__name">Роман <b>Боровик</b></span><span class="p__role">Півзахисник, Лозова</span></a></li>
-      <li class="p" data-pos="mf" data-local="Полтавське"><a class="p__link" href="https://avangard-lozova.com/team/vladislav-galushka"><img src="assets/img/webp/p10-360.webp" srcset="assets/img/webp/p10-360.webp 360w, assets/img/webp/p10.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__no">10</span><span class="p__name">Владислав <b>Галушка</b></span><span class="p__role">Півзахисник, Полтавське</span></a></li>
-      <li class="p" data-pos="mf"><a class="p__link" href="https://avangard-lozova.com/team/yurij-glushhuk"><img src="assets/img/webp/p5-360.webp" srcset="assets/img/webp/p5-360.webp 360w, assets/img/webp/p5.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__no">5</span><span class="p__name">Юрій <b>Глущук</b></span><span class="p__role">Півзахисник</span></a></li>
-      <li class="p" data-pos="mf"><a class="p__link" href="https://avangard-lozova.com/team/bogdan-shmigalskiy"><img src="assets/img/webp/p21-360.webp" srcset="assets/img/webp/p21-360.webp 360w, assets/img/webp/p21.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__no">21</span><span class="p__name">Богдан <b>Шмигельський</b></span><span class="p__role">Півзахисник</span></a></li>
-      <li class="p" data-pos="mf" data-local="Надеждівка"><a class="p__link" href="https://avangard-lozova.com/team/eduard-suhomlin"><img src="assets/img/webp/p6-360.webp" srcset="assets/img/webp/p6-360.webp 360w, assets/img/webp/p6.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__no">6</span><span class="p__name">Едуард <b>Сухомлин</b></span><span class="p__role">Півзахисник, Надеждівка</span></a></li>
-      <li class="p" data-pos="mf"><a class="p__link" href="https://avangard-lozova.com/team/oleksij-shvecz"><img src="assets/img/webp/p70-360.webp" srcset="assets/img/webp/p70-360.webp 360w, assets/img/webp/p70.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__no">70</span><span class="p__name">Олексій <b>Швець</b></span><span class="p__role">Півзахисник</span></a></li>
-      <li class="p" data-pos="mf"><a class="p__link" href="https://avangard-lozova.com/team/sergij-shestakov"><img src="assets/img/webp/p17-360.webp" srcset="assets/img/webp/p17-360.webp 360w, assets/img/webp/p17.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__no">17</span><span class="p__name">Сергій <b>Шестаков</b></span><span class="p__role">Півзахисник</span></a></li>
-      <li class="p" data-pos="fw" data-local="Лозова"><a class="p__link" href="https://avangard-lozova.com/team/oleksandr-gladkij"><img src="assets/img/webp/p11-360.webp" srcset="assets/img/webp/p11-360.webp 360w, assets/img/webp/p11.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__no">11</span><span class="p__name">Олександр <b>Гладкий</b></span><span class="p__role">Нападник, Лозова</span></a></li>
-      <li class="p" data-pos="fw" data-local="Лозова"><a class="p__link" href="https://avangard-lozova.com/team/kirilo-grebenyuk"><img src="assets/img/webp/p7-360.webp" srcset="assets/img/webp/p7-360.webp 360w, assets/img/webp/p7.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__no">7</span><span class="p__name">Кирило <b>Гребенюк</b></span><span class="p__role">Нападник, Лозова</span></a></li>
-      <li class="p" data-pos="fw"><a class="p__link" href="https://avangard-lozova.com/team/yevgenij-sokolan"><img src="assets/img/webp/p9-360.webp" srcset="assets/img/webp/p9-360.webp 360w, assets/img/webp/p9.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__no">9</span><span class="p__name">Євген <b>Соколан</b></span><span class="p__role">Нападник</span></a></li>
-      <li class="p" data-pos="fw"><a class="p__link" href="https://avangard-lozova.com/team/daniil-smirnov"><img src="assets/img/webp/p4-360.webp" srcset="assets/img/webp/p4-360.webp 360w, assets/img/webp/p4.webp 720w" sizes="(max-width: 760px) 31vw, (max-width: 1100px) 18vw, 13vw" width="720" height="900" loading="lazy" decoding="async" alt=""><span class="p__no">4</span><span class="p__name">Данііл <b>Смірнов</b></span><span class="p__role">Нападник</span></a></li>
-    </ul>
-  </section>
-
-  <section class="hometown" id="hladkyi" aria-labelledby="hometown-title">
-    <div class="hometown__text">
-      <h2 class="h2 h2--big" id="hometown-title">Перший гол забив лозівчанин</h2>
-      <p>15 серпня 2026 року, «Олександрія-2», 0:1 на табло. На другій доданій хвилині Олександр Гладкий зрівняв рахунок. Це перший гол «Авангарду» в&nbsp;професійному футболі.</p>
-      <p>Гладкий народився в&nbsp;Лозовій 1987 року і&nbsp;починав у&nbsp;місцевій ДЮСШ. Потім були «Шахтар», Кубок УЄФА 2009 року, два чемпіонства України і&nbsp;збірна. У&nbsp;2024 році він повернувся в&nbsp;рідний клуб гравцем і&nbsp;спортивним директором.</p>
-    </div>
-    <figure class="hometown__then">
-      <img src="assets/img/webp/hladkyi-2009.webp" width="800" height="800" loading="lazy" alt="Олександр Гладкий у білій формі «Шахтаря» на полі, 2009 рік">
-      <figcaption>Гладкий у&nbsp;«Шахтарі», вересень 2009 року</figcaption>
-    </figure>
-  </section>
-
+  <!-- 9. ACADEMY -->
   <section class="academy" id="academy" aria-labelledby="academy-title">
+    <h2 class="h2 academy__title" id="academy-title">Гладкий теж починав у лозівській ДЮСШ</h2>
     <div class="academy__text">
-      <h2 class="h2" id="academy-title">Академія</h2>
-      <p>Дитяча академія працює з&nbsp;2021 року, відколи клуб відродили. 10 вересня 2026 року «Авангард» підписав меморандум про співпрацю з&nbsp;ДЮСШ міста Лозової.</p>
-      <p>Щоб записати дитину на тренування, напишіть на <a class="link" href="mailto:avangardlozova@gmail.com?subject=%D0%97%D0%B0%D0%BF%D0%B8%D1%81%20%D0%B4%D0%BE%20%D0%B0%D0%BA%D0%B0%D0%B4%D0%B5%D0%BC%D1%96%D1%97&amp;body=%D0%86%D0%BC%27%D1%8F%20%D0%B4%D0%B8%D1%82%D0%B8%D0%BD%D0%B8%3A%0A%D0%A0%D1%96%D0%BA%20%D0%BD%D0%B0%D1%80%D0%BE%D0%B4%D0%B6%D0%B5%D0%BD%D0%BD%D1%8F%3A%0A%D0%A2%D0%B5%D0%BB%D0%B5%D1%84%D0%BE%D0%BD%20%D0%B1%D0%B0%D1%82%D1%8C%D0%BA%D1%96%D0%B2%3A%0A">avangardlozova@gmail.com</a>. У&nbsp;листі вкажіть ім’я та рік народження дитини.</p>
+      <p>Дитяча академія працює з 2021 року, відколи клуб відродили. 10 вересня 2026 року «Авангард» підписав меморандум про співпрацю з ДЮСШ міста Лозової.</p>
+      <p>Семеро гравців першої команди виросли на Лозівщині. Щоб записати дитину на тренування, напишіть нам, і ми надішлемо розклад занять.</p>
+      <a class="btn btn--gold" href="mailto:avangardlozova@gmail.com?subject=%D0%97%D0%B0%D0%BF%D0%B8%D1%81%20%D0%B4%D0%BE%20%D0%B0%D0%BA%D0%B0%D0%B4%D0%B5%D0%BC%D1%96%D1%97&amp;body=%D0%86%D0%BC%27%D1%8F%20%D0%B4%D0%B8%D1%82%D0%B8%D0%BD%D0%B8%3A%0A%D0%A0%D1%96%D0%BA%20%D0%BD%D0%B0%D1%80%D0%BE%D0%B4%D0%B6%D0%B5%D0%BD%D0%BD%D1%8F%3A%0A%D0%A2%D0%B5%D0%BB%D0%B5%D1%84%D0%BE%D0%BD%20%D0%B1%D0%B0%D1%82%D1%8C%D0%BA%D1%96%D0%B2%3A%0A">Записати дитину</a>
     </div>
     <figure class="academy__photo">
       <img src="assets/img/webp/img1310.webp" width="1800" height="1440" loading="lazy" alt="Діти з академії «Авангарду» грають у футбол на полі зі штучним покриттям">
     </figure>
   </section>
 
-  <section class="history" id="history" aria-labelledby="history-title">
-    <h2 class="h2" id="history-title">Історія клубу</h2>
-    <ol class="years">
-        <li class="yr"><p class="yr__n">1869</p><p class="yr__t">Навколо нової станції Курсько-Харківсько-Азовської залізниці виростає Лозова.</p><figure class="yr__img"><img src="assets/img/webp/depot-1885.webp" width="1600" height="1200" loading="lazy" alt="Паровозне депо станції Лозова і степ до горизонту, фото 1880-х років"></figure></li>
-        <li class="yr"><p class="yr__n">1969</p><p class="yr__t">У&nbsp;Лозовій засновують «Авангард». Ця дата досі стоїть на емблемі клубу.</p></li>
-        <li class="yr"><p class="yr__n">1988</p><p class="yr__t">«Авангард» виграє Кубок УРСР серед колективів фізкультури. У&nbsp;фіналі з&nbsp;бердичівською «Зіркою» було 1:1, 2:2 і&nbsp;6:5 у&nbsp;серії пенальті.</p></li>
-        <li class="yr"><p class="yr__n">1992</p><p class="yr__t">Четвертий титул чемпіона Харківської області, після 1982, 1983 і&nbsp;1988 років.</p></li>
-        <li class="yr"><p class="yr__n">2021</p><p class="yr__t">Клуб відроджують після років без команди. Того ж року відкривається дитяча академія.</p></li>
-        <li class="yr"><p class="yr__n">2026</p><p class="yr__t">13 травня «Авангард» виграє Кубок України серед аматорів, 2:0 у&nbsp;фіналі з&nbsp;«Маяком» із Сарн. 18 червня отримує професійний статус. 8 серпня грає перший матч у&nbsp;Другій лізі.</p><figure class="yr__img"><img src="assets/img/webp/img1314.webp" width="1800" height="1013" loading="lazy" alt="Команда і керівництво «Авангарду» з медалями та Кубком України серед аматорів"></figure></li>
-    </ol>
-  </section>
-
-  <section class="town" id="lozova" aria-labelledby="town-title">
-    <figure class="town__photo">
-      <div class="town__frame">
-        <img class="town__then" src="assets/img/webp/station-1880.webp" width="1500" height="1180" loading="lazy" alt="Дерев’яний вокзал станції Лозова, фото 1880 року">
-        <img class="town__now" src="assets/img/webp/station-night.webp" width="1280" height="960" loading="lazy" alt="Освітлений вокзал станції Лозова вночі, 2008 рік">
-      </div>
-      <figcaption class="town__cap" data-cap>Вокзал станції Лозова, 2008 рік</figcaption>
-    </figure>
-    <div class="town__text">
-      <h2 class="h2" id="town-title">Лозова</h2>
-      <div class="town__cols">
-        <p>Місто виросло навколо залізничної станції. Тут сходяться колії на Харків, Полтаву, Слов’янськ і&nbsp;Запоріжжя, а&nbsp;потяги міняють електровози постійного струму на електровози змінного. На гербі міста чотири схрещені стріли.</p>
-        <p>Міський стадіон «Локомотив» збудували залізничники. 2 червня 2026 року його пошкодив удар дронів, тому домашні матчі сезону «Авангард» грає на стадіоні «Лівий берег» під Києвом.</p>
-      </div>
-    </div>
-  </section>
-
 </main>
 
-<footer class="foot">
-  <div class="foot__brand">
-    <svg class="foot__crest" aria-hidden="true"><use href="#emblem"/></svg>
-    <p><b>ФК «Авангард» Лозова</b><br>з&nbsp;1969 року</p>
+<footer class="foot" aria-labelledby="foot-title">
+  <div class="foot__top">
+    <svg class="foot__emblem" aria-hidden="true"><use href="#emblem"/></svg>
+    <div class="foot__cols">
+      <nav aria-label="Сторінки клубу">
+        <h2 class="foot__h">Клуб</h2>
+        <a href="https://avangard-lozova.com/news">Новини</a>
+        <a href="https://avangard-lozova.com/tournaments">Турніри та матчі</a>
+        <a href="https://avangard-lozova.com/team">Команда</a>
+        <a href="https://avangard-lozova.com/staff">Персонал</a>
+        <a href="https://avangard-lozova.com/financial-reporting">Фінансова звітність</a>
+      </nav>
+      <nav aria-label="Соцмережі">
+        <h2 class="foot__h">Соцмережі</h2>
+        <a href="https://t.me/fc_avangard_lozova" rel="noopener">Telegram</a>
+        <a href="https://www.instagram.com/fc_avangard_lozova/" rel="noopener">Instagram</a>
+        <a href="https://www.facebook.com/avangard.lozova" rel="noopener">Facebook</a>
+        <a href="https://www.youtube.com/@avangardlozova2021" rel="noopener">YouTube</a>
+      </nav>
+      <div>
+        <h2 class="foot__h">Контакти</h2>
+        <a href="mailto:avangardlozova@gmail.com">avangardlozova@gmail.com</a>
+        <p>Документи клубу підписано КЕП.</p>
+      </div>
+    </div>
   </div>
-  <nav class="foot__links" aria-label="Сторінки клубу">
-    <a href="https://avangard-lozova.com/news">Новини</a>
-    <a href="https://avangard-lozova.com/tournaments">Турніри та матчі</a>
-    <a href="https://avangard-lozova.com/team">Команда</a>
-    <a href="https://avangard-lozova.com/staff">Персонал</a>
-    <a href="https://avangard-lozova.com/financial-reporting">Фінансова звітність</a>
-  </nav>
-  <nav class="foot__links" aria-label="Соцмережі та пошта">
-    <a href="https://t.me/fc_avangard_lozova" rel="noopener">Telegram</a>
-    <a href="https://www.instagram.com/fc_avangard_lozova/" rel="noopener">Instagram</a>
-    <a href="https://www.facebook.com/avangard.lozova" rel="noopener">Facebook</a>
-    <a href="https://www.youtube.com/@avangardlozova2021" rel="noopener">YouTube</a>
-    <a href="mailto:avangardlozova@gmail.com">avangardlozova@gmail.com</a>
-  </nav>
-  <p class="foot__credits">Фото: прес-служба клубу. Вокзал уночі: salech hcelas, CC BY 3.0. Вокзал 1880 року: Альберт Мей; депо 1880-х: альбом Курсько-Харківсько-Азовської залізниці, обидва в&nbsp;суспільному надбанні. Гладкий у&nbsp;2009 році: Aleksandr Osipov, CC BY-SA 2.0. Архівні фото з&nbsp;Wikimedia Commons.</p>
+  <p class="foot__word" id="foot-title">
+    <span class="visually-hidden">ФК «Авангард» Лозова</span>
+    <span data-word aria-hidden="true">Авангард</span>
+  </p>
+  <div class="foot__base">
+    <p>ФК «Авангард» Лозова, з 1969 року</p>
+    <p>Фото: прес-служба клубу. Вокзал уночі: salech hcelas, CC BY 3.0. Вокзал 1880 року: Альберт Мей; депо 1880-х: альбом Курсько-Харківсько-Азовської залізниці, обидва фото в суспільному надбанні. Гладкий у 2009 році: Aleksandr Osipov, CC BY-SA 2.0. Архівні фото з Wikimedia Commons.</p>
+  </div>
 </footer>
 
 <script src="assets/vendor/gsap.min.js" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
-<script src="js/main.js?v=13" defer></script>
+<script src="js/main.js?v=8" defer></script>
 </body>
 </html>
