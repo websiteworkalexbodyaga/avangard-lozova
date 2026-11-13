@@ -65,9 +65,10 @@
     const crest = $("[data-crest]");
     // the hero already offers "next match"; the bar's copy of it waits until the hero has gone
     const action = $(".bar__action");
-    if (action && hasGsap) {
+    const first = $("[data-kick]");
+    if (action && hasGsap && first) {
       ScrollTrigger.create({
-        trigger: "[data-hero]", start: "top top", end: "bottom top+=1",
+        trigger: first, start: "top top", end: "bottom top+=1",
         onToggle: (self) => action.classList.toggle("is-quiet", self.isActive),
       });
       if (window.scrollY < 10) action.classList.add("is-quiet");
@@ -378,16 +379,36 @@
      so the five-win streak arrives as a gold band. */
   function setupRun() {
     const run = $("[data-run]");
-    if (!run || !hasGsap || reduce) return;
+    if (!run) return;
+    const scroll = $(".run__scroll", run);
+    const svg = $(".run__line", run);
+    const line = $("polyline", svg);
     const tiles = $$(".res", run);
-    const streak = $("[data-streak]", run);
-    gsap.set(tiles, { yPercent: 40, opacity: 0 });
-    gsap.set(streak, { opacity: 0, x: -24 });
+    // the season as a line: each match is a ball on the pitch, wins high, draws in the middle, losses low
+    function draw() {
+      const box = scroll.getBoundingClientRect();
+      svg.setAttribute("width", scroll.scrollWidth); svg.setAttribute("height", box.height);
+      const pts = tiles.map((li) => {
+        const d = li.querySelector(".res__dot").getBoundingClientRect();
+        return `${(d.left - box.left + scroll.scrollLeft + d.width / 2).toFixed(1)},${(d.top - box.top + d.height / 2).toFixed(1)}`;
+      });
+      line.setAttribute("points", pts.join(" "));
+      const len = line.getTotalLength ? line.getTotalLength() : 2000;
+      line.style.strokeDasharray = len; line.dataset.len = len;
+      if (!run.classList.contains("is-drawn")) line.style.strokeDashoffset = reduce ? 0 : len;
+    }
+    tiles.forEach((li) => { const dot = document.createElement("span"); dot.className = "res__dot"; dot.setAttribute("aria-hidden", "true"); li.prepend(dot); });
+    draw();
+    window.addEventListener("resize", draw);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+    if (!hasGsap || reduce) { run.classList.add("is-drawn"); return; }
+    gsap.set(tiles, { opacity: 0, y: 16 });
     ScrollTrigger.create({
-      trigger: run, start: "top 78%", once: true,
+      trigger: run, start: "top 75%", once: true,
       onEnter: () => {
-        gsap.to(tiles, { yPercent: 0, opacity: 1, duration: 0.7, ease: "power3.out", stagger: 0.07 });
-        gsap.to(streak, { opacity: 1, x: 0, duration: 0.8, ease: "power3.out", delay: 0.07 * 9 });
+        run.classList.add("is-drawn");
+        gsap.to(line, { strokeDashoffset: 0, duration: 2.2, ease: "power2.inOut" });
+        gsap.to(tiles, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out", stagger: 0.15 });
       },
     });
   }
@@ -605,7 +626,55 @@
     });
   }
 
+  /* ---------------------------------------------------------------
+     Kick-off. The halfway line draws down the screen, the centre circle
+     closes around the crest on the centre spot, then the name moves off
+     into one half and the photo card is laid down in the other.
+     Afterwards the line, circle and card follow the scroll a little. */
+  function setupKick() {
+    const sec = $("[data-kick]");
+    if (!sec) return;
+    // the centre circle of the hero is the centre circle of the pitch behind the page: same size, same place
+    const bgEl = $(".pitch-bg"), centre = $(".kick__centre", sec);
+    const fit = () => {
+      if (!bgEl || !centre) return;
+      const r = bgEl.getBoundingClientRect();
+      const k = Math.max(r.width / 1050, r.height / 680);
+      sec.style.setProperty("--cc", `${(184 * k).toFixed(1)}px`);
+    };
+    fit(); window.addEventListener("resize", fit);
+    if (!hasGsap || reduce) { root.classList.remove("intro"); return; }
+    const circle = $(".kick__circle circle", sec);
+    const crest = $(".kick__crest", sec);
+    const left = $(".kick__w--l", sec), right = $(".kick__w--r", sec);
+    const rest = $$(".kick__since, .kick__next", sec);
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+    tl.set(circle, { strokeDasharray: 1, strokeDashoffset: 1 })
+      .set(crest, { scale: 0.5, opacity: 0, rotate: -12 })
+      .set(left, { xPercent: 60, opacity: 0 })
+      .set(right, { xPercent: -60, opacity: 0 })
+      .set(rest, { opacity: 0, y: 12 });
+    root.classList.remove("intro");
+    // the circle is drawn, the crest lands on the centre spot, then the name is kicked off to both halves
+    tl.to(circle, { strokeDashoffset: 0, duration: 1.1, ease: "power2.inOut" })
+      .to(crest, { scale: 1, opacity: 1, rotate: 0, duration: 0.8, ease: "back.out(1.7)" }, 0.7)
+      .to([left, right], { xPercent: 0, opacity: 1, duration: 1.0, ease: "expo.out" }, 1.15)
+      .to(rest, { opacity: 1, y: 0, duration: 0.6, stagger: 0.12 }, 1.6);
+    // scrolling away: the two halves part a little further, the centre stays
+    gsap.to(left, { xPercent: -12, ease: "none", scrollTrigger: { trigger: sec, start: "top top", end: "bottom top", scrub: true } });
+    gsap.to(right, { xPercent: 12, ease: "none", scrollTrigger: { trigger: sec, start: "top top", end: "bottom top", scrub: true } });
+  }
+
+  /* The whole site stands on one pitch: it drifts slowly as the page scrolls. */
+  function setupPitch() {
+    const bg = $(".pitch-bg svg");
+    if (!bg || !hasGsap || reduce) return;
+    gsap.to(bg, { yPercent: -6, ease: "none", scrollTrigger: { start: 0, end: "max", scrub: true } });
+  }
+
   if (!hasGsap) root.classList.remove("intro");
+  setupKick();
+  setupPitch();
   setupRises();
   setupFlaps();
   setupCountdown();
