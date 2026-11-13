@@ -911,3 +911,14 @@ body { background: var(--ground); }
 .kick__title { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); width: 100%; }
 .kick__w--l { justify-self: end; } .kick__w--r { justify-self: start; }
 @media (max-width: 860px) { .kick__title { grid-template-columns: 1fr; } .kick__w--l, .kick__w--r { justify-self: center; } }
+
+/* ===== v7 ===== */
+/* history: years only */
+.history.is-pinned .year, .year { flex-basis: min(30vw, 420px); }
+/* phone hero: Авангард, the circle, Лозова in one centred column */
+@media (max-width: 860px) {
+  .kick__title { grid-template-columns: 1fr; justify-items: center; row-gap: 14px; }
+  .kick__w--l, .kick__centre, .kick__w--r { grid-column: 1; grid-row: auto; justify-self: center; order: 0; }
+  .kick__centre { width: clamp(140px, 40vw, 200px); }
+}
+@media (max-width: 860px) { .kick__centre { width: min(var(--cc, 200px), 64vw); } }
