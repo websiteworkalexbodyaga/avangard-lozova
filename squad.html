@@ -8,8 +8,8 @@
   <meta name="theme-color" content="#100e0b">
   <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/FiraSansExtraCondensed-900-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/base.css?v=26">
-  <link rel="stylesheet" href="css/main.css?v=26">
+  <link rel="stylesheet" href="css/base.css?v=37">
+  <link rel="stylesheet" href="css/main.css?v=37">
   <script>(function(d){d.classList.add('js');if(!/[?&]still\b/.test(location.search)&&!matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('intro');setTimeout(function(){d.classList.remove('intro')},3000);}})(document.documentElement);</script>
 </head>
 <body data-page="squad">
@@ -40,6 +40,7 @@
 <a class="skip" href="#main">Перейти до основного вмісту</a>
 
 <header class="bar" data-bar>
+  <span class="bar__goal" aria-hidden="true"><span class="bar__post bar__post--l"></span><span class="bar__post bar__post--r"></span></span>
   <a class="bar__brand" href="index.html" aria-label="ФК «Авангард» Лозова, на головну">
     <span class="crest" aria-hidden="true" data-crest>
       <svg class="crest__base"><use href="#emblem"/></svg>
@@ -56,14 +57,27 @@
   </nav>
   <a class="btn btn--gold bar__action" href="index.html#match">Наступний матч</a>
   <details class="menu">
-    <summary class="menu__toggle"><span>Меню</span></summary>
+    <summary class="menu__toggle"><span class="menu__icon" aria-hidden="true"><i></i><i></i></span><span class="menu__word">Меню</span></summary>
     <nav class="menu__sheet" aria-label="Розділи">
-      <a href="index.html#match">Наступний матч</a>
-      <a href="index.html#season">Сезон</a>
-      <a href="squad.html" aria-current="page">Склад</a>
-      <a href="index.html#history">Історія</a>
-      <a href="index.html#news">Новини</a>
-      <a href="academy.html">Академія</a>
+      <a class="menu__next" href="index.html#match">
+        <span class="menu__label">Наступний матч, 15-й тур</span>
+        <span class="menu__teams">Полтава-2 <small>проти</small> Авангард</span>
+        <span class="menu__when"><span>Неділя, 15.11</span><span>11:30</span><span>Кременчук</span></span>
+      </a>
+      <ol class="menu__links">
+        <li><a href="index.html#season"><span class="menu__n">01</span><span class="menu__t">Сезон</span><span class="menu__d">5-те місце, 17 очок</span><span class="menu__go" aria-hidden="true">→</span></a></li>
+        <li><a href="squad.html" aria-current="page"><span class="menu__n">02</span><span class="menu__t">Склад</span><span class="menu__d">Гравці сезону 2026/27</span><span class="menu__go" aria-hidden="true">→</span></a></li>
+        <li><a href="index.html#history"><span class="menu__n">03</span><span class="menu__t">Історія</span><span class="menu__d">Від станції до Другої ліги</span><span class="menu__go" aria-hidden="true">→</span></a></li>
+        <li><a href="index.html#news"><span class="menu__n">04</span><span class="menu__t">Новини</span><span class="menu__d">Нічия з лідером, 1:1</span><span class="menu__go" aria-hidden="true">→</span></a></li>
+        <li><a href="academy.html"><span class="menu__n">05</span><span class="menu__t">Академія</span><span class="menu__d">Запис дітей на тренування</span><span class="menu__go" aria-hidden="true">→</span></a></li>
+      </ol>
+      <div class="menu__social">
+        <a href="https://t.me/fc_avangard_lozova" rel="noopener">Telegram</a>
+        <a href="https://www.instagram.com/fc_avangard_lozova/" rel="noopener">Instagram</a>
+        <a href="https://www.facebook.com/avangard.lozova" rel="noopener">Facebook</a>
+        <a href="https://www.youtube.com/@avangardlozova2021" rel="noopener">YouTube</a>
+      </div>
+      <p class="menu__foot"><svg aria-hidden="true"><use href="#emblem"/></svg><span>ФК «Авангард» Лозова<br>з 1969 року</span></p>
     </nav>
   </details>
 </header>
@@ -115,6 +129,8 @@
     </ul>
   </section>
 
+  <div class="tape" aria-hidden="true"><span></span></div>
+
   <!-- 5. THE SEASON AS ONE MATCH: twelve goals at their real minutes, the scorer in the crest -->
   <section class="match90" id="goals" aria-labelledby="goals-title" data-goals>
     <div class="match90__pin">
@@ -147,6 +163,8 @@
       </div>
     </div>
   </section>
+
+  <div class="tape" aria-hidden="true"><span></span></div>
 
 </main>
 
@@ -184,6 +202,6 @@
 
 <script src="assets/vendor/gsap.min.js" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
-<script src="js/main.js?v=26" defer></script>
+<script src="js/main.js?v=37" defer></script>
 </body>
 </html>
