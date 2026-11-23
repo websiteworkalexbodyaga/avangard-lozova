@@ -635,82 +635,31 @@
   }
 
   /* ---------------------------------------------------------------
-     Loader: the club introduces itself. The screen is split in two that never
-     meet: above, the name lights up letter by letter and the crest is drawn and
-     fills with gold as the page loads; below, on its own strip of ground, a ball
-     is juggled and grows with the loading. When the page is ready the crest flies
-     to its place on the first screen, the ball is driven off to the side, low,
-     and the page opens around the crest. */
+     Loader: the club introduces itself, briefly. The name lights up letter by
+     letter, the crest is drawn and fills with gold from the bottom as the page
+     loads; then the crest flies to its place on the first screen and the page
+     opens around it. Under three seconds on a normal connection. */
   function setupLoader() {
     const el = $(".loader");
     if (!el) return;
     if (!root.classList.contains("loading") || !hasGsap) { root.classList.remove("loading"); el.remove(); return; }
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
     window.scrollTo(0, 0);
-    const ball = $(".loader__ball", el), skin = $(".loader__ball svg", el);
-    const shadow = $(".loader__shadow", el), ripple = $(".loader__ripple", el);
+    const ripple = $(".loader__ripple", el);
     const crestBox = $(".loader__crest", el), level = $(".loader__level", el);
     const line = $(".loader__crest-line", el), back = $(".loader__crest-back", el);
     const nameEl = $(".loader__name", el), sub = $(".loader__sub", el);
-    const DEG = 180 / Math.PI, W = window.innerWidth, H = window.innerHeight;
+    const W = window.innerWidth, H = window.innerHeight;
 
-    // above: the name, then the crest
     nameEl.innerHTML = Array.from("Авангард").map((c) => `<span>${c}</span>`).join("");
     const letters = $$("span", nameEl);
     const fs = Math.round(Math.max(28, Math.min(W * 0.15, H * 0.09)));
-    const nameTop = Math.round(H * 0.05);
+    const nameTop = Math.round(H * 0.07);
     gsap.set(nameEl, { fontSize: fs, top: nameTop });
     gsap.set(sub, { top: nameTop + fs * 0.92 + 8 });
-    const topLimit = nameTop + fs * 0.92 + 40;
-    const ground = Math.round(H * 0.94);
-    const split = topLimit + (ground - topLimit) * 0.46;
-    const ch = Math.round(Math.min((split - topLimit) * 0.94, (W * 0.8 * 385) / 157)), cw = Math.round((ch * 157) / 385);
-    gsap.set(crestBox, { width: cw, height: ch, left: (W - cw) / 2, top: topLimit + (split - topLimit - ch) / 2 });
-
-    // below: the ball's own strip of ground. It starts small and grows as the page loads.
-    // Every move is a real throw: one gravity for all of them, so a higher hop takes longer;
-    // the ball only changes pace or direction when it touches the ground; a bounce gives back
-    // part of the speed it landed with; it flattens harder the faster it lands.
-    const zoneTop = split + Math.max(12, H * 0.02);
-    const zone = ground - zoneTop;
-    const Bmax = Math.round(Math.max(40, Math.min(W * 0.5, zone * 0.62)));
-    const Bmin = Math.round(Bmax * 0.38);
-    let B = Bmin;
-    const GRAV = Bmax * 14, REST = 0.72;
-    const room = () => Math.max(0, ground - B - zoneTop);
-    const mid = W / 2;
-    const side = () => Math.min(B * 0.4, W * 0.14);
-    const b = { x: -Bmin, h: 0 }, q = { x: 1, y: 1 };
-    const spin = { r: 0, w: 0 };
-    let flight = null;
-    const draw = () => {
-      const h = Math.min(b.h, room());
-      gsap.set(ball, { width: B, height: B, x: b.x - B / 2, y: ground - B - h, scaleX: q.x, scaleY: q.y });
-      const k = Math.max(0, 1 - h / Math.max(1, zone * 0.8));
-      gsap.set(shadow, { width: B * 1.5, height: B * 0.22, marginLeft: -B * 0.75, marginTop: -B * 0.11, x: b.x, y: ground, scale: 0.4 + 0.6 * k, opacity: 0.9 * k });
-    };
-    // send the ball off with a sideways and an upward speed; done(impact) runs when it is back on the ground
-    const launch = (vx, vy, done) => {
-      flight = { x0: b.x, h0: b.h, vx, vy, t: 0, done };
-      // it turns as fast as it travels, plus what the touch gave it
-      gsap.to(spin, { w: (vx / (B / 2)) * DEG + Math.sign(vx || 1) * 70, duration: 0.12, overwrite: true });
-    };
-    const advance = (dt) => {
-      const f = flight;
-      if (!f) return;
-      f.t += Math.min(dt, 0.05);
-      const total = (f.vy + Math.sqrt(f.vy * f.vy + 2 * GRAV * f.h0)) / GRAV; // when it meets the ground again
-      if (f.t >= total) {
-        const impact = Math.abs(f.vy - GRAV * total);
-        b.x = f.x0 + f.vx * total; b.h = 0; flight = null;
-        const sq = Math.min(0.24, (impact / GRAV) * 0.55);
-        gsap.fromTo(q, { x: 1 + sq, y: 1 - sq }, { x: 1, y: 1, duration: 0.14 + sq * 0.5, ease: "power2.out", overwrite: true });
-        f.done(impact, f.vx);
-        return;
-      }
-      b.x = f.x0 + f.vx * f.t;
-      b.h = f.h0 + f.vy * f.t - (GRAV * f.t * f.t) / 2;
-    };
+    const topLimit = nameTop + fs * 0.92 + 44;
+    const ch = Math.round(Math.min(H * 0.58, (H - topLimit) * 0.82, (W * 0.7 * 385) / 157)), cw = Math.round((ch * 157) / 385);
+    gsap.set(crestBox, { width: cw, height: ch, left: (W - cw) / 2, top: topLimit + (H - topLimit - ch) * 0.42 });
 
     // the gold inside the crest: a level with a gentle wave on top; p is how much of the page is ready
     const prog = { p: 0 };
@@ -725,93 +674,48 @@
       while (lit < n) {
         const L = letters[lit++];
         L.classList.add("is-lit");
-        gsap.fromTo(L, { yPercent: -35, scale: 1.5 }, { yPercent: 0, scale: 1, duration: 0.5, ease: "back.out(2.6)" });
+        gsap.fromTo(L, { yPercent: -35, scale: 1.5 }, { yPercent: 0, scale: 1, duration: 0.4, ease: "back.out(2.6)" });
       }
-      B = Bmin + (Bmax - Bmin) * prog.p;
     };
-
-    // the spin and the wave run on their own clock, so neither ever stalls; w is degrees per second
-    let full = false;
-    const turn = (time, dt) => {
-      advance(dt / 1000);
-      spin.r += (spin.w * Math.min(dt, 50)) / 1000;
-      gsap.set(skin, { rotation: spin.r });
-      wave += dt / 260; fill(); draw();
-    };
+    const turn = (time, dt) => { wave += dt / 220; fill(); };
     gsap.ticker.add(turn);
-    fill(); draw(); gsap.set(ball, { opacity: 1 });
+    fill();
 
-    gsap.fromTo(line, { strokeDasharray: 900, strokeDashoffset: 900 }, { strokeDashoffset: 0, duration: 1.8, ease: "power2.inOut" });
-    gsap.from([nameEl, sub], { opacity: 0, duration: 0.6 });
+    gsap.fromTo(line, { strokeDasharray: 900, strokeDashoffset: 900 }, { strokeDashoffset: 0, duration: 1, ease: "power2.inOut" });
+    gsap.from([nameEl, sub], { opacity: 0, duration: 0.4 });
 
     const loaded = new Promise((r) => (document.readyState === "complete" ? r() : window.addEventListener("load", r, { once: true })));
     const fonts = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
-    const minTime = new Promise((r) => setTimeout(r, 2100));
-    const cap = new Promise((r) => setTimeout(r, 5200));
-    const rising = gsap.to(prog, { p: 0.86, duration: 2.6, delay: 0.3, ease: "power1.out", onUpdate: fill });
+    const minTime = new Promise((r) => setTimeout(r, 1000));
+    const cap = new Promise((r) => setTimeout(r, 1700));
+    const rising = gsap.to(prog, { p: 0.86, duration: 1.3, delay: 0.1, ease: "power1.out", onUpdate: fill });
     Promise.race([Promise.all([loaded, fonts, minTime]), cap]).then(() => {
       rising.kill();
-      gsap.to(prog, {
-        p: 1, duration: 0.6, ease: "power2.out", onUpdate: fill,
-        onComplete: () => { full = true; gsap.to(sub, { opacity: 1, y: 0, duration: 0.5 }); },
-      });
+      gsap.to(sub, { opacity: 1, y: 0, duration: 0.3 });
+      gsap.to(prog, { p: 1, duration: 0.3, ease: "power2.out", onUpdate: fill, onComplete: () => gsap.delayedCall(0.12, finale) });
     });
 
-    // 1. in from the left: it drops in and bounces, each bounce lower and shorter than the last
-    {
-      b.h = room() * 0.9;
-      const v0 = Math.sqrt(2 * GRAV * b.h);
-      const tFall = v0 / GRAV, t1 = (2 * REST * v0) / GRAV, t2 = (2 * REST * REST * v0) / GRAV;
-      const vx = (mid - side() - b.x) / (tFall + 0.9 * t1 + 0.81 * t2);
-      let n = 0;
-      const bounce = (impact, pace) => {
-        n += 1;
-        if (n === 3) { juggle(0); return; }
-        launch(pace * 0.9, impact * REST, bounce);
-      };
-      launch(vx, 0, bounce);
-    }
-
-    // 2. kept up while the page loads: each touch sends it up and across to the other foot
-    function juggle(n) {
-      if (full && n >= 2) { finale(); return; }
-      const dir = n % 2 ? -1 : 1;
-      const apex = room() * Math.min(0.62 + n * 0.06, 0.9);
-      const vy = Math.sqrt(2 * GRAV * Math.max(apex, 1));
-      const time = (2 * vy) / GRAV;
-      launch((mid + side() * dir - b.x) / time, vy, () => juggle(n + 1));
-    }
-
-    // 3. the crest goes to its place on the page; the ball is struck low and hard and leaves the picture
+    // the crest goes to its place on the first screen
     function finale() {
       const home = $(".kick__crest");
       const hr = home && home.getBoundingClientRect();
-      gsap.to([nameEl, sub], { opacity: 0, y: -24, duration: 0.5, ease: "power2.in", stagger: 0.05 });
-      gsap.to([line, back], { opacity: 0, duration: 0.6 });
-      if (hr && hr.width) gsap.to(crestBox, { left: hr.left, top: hr.top, width: hr.width, height: hr.height, duration: 1.05, ease: "power3.inOut", onComplete: open });
-      else gsap.delayedCall(1.05, open);
-
-      // never higher than just under the crest, wherever the crest is on its way
-      const safeTop = Math.max(zoneTop, (hr && hr.bottom ? hr.bottom : 0) + 16);
-      const lift = Math.max(0, ground - B - safeTop) * 0.55;
-      const dir = b.x <= mid ? -1 : 1;
-      const pace = dir * Math.max(W * 0.95, 700);
-      const skip = (impact, vx) => { if (b.x > -B && b.x < W + B) launch(vx * 0.92, impact * REST, skip); };
-      launch(pace, Math.sqrt(2 * GRAV * Math.max(lift, 1)), skip);
-      gsap.to(shadow, { opacity: 0, duration: 0.5, delay: 0.3 });
+      gsap.to([nameEl, sub], { opacity: 0, y: -24, duration: 0.35, ease: "power2.in", stagger: 0.04 });
+      gsap.to([line, back], { opacity: 0, duration: 0.4 });
+      if (hr && hr.width) gsap.to(crestBox, { left: hr.left, top: hr.top, width: hr.width, height: hr.height, duration: 0.65, ease: "power3.inOut", onComplete: open });
+      else gsap.delayedCall(0.65, open);
     }
 
-    // 4. the page opens around the crest, which is already where it belongs
+    // the page opens around the crest, which is already where it belongs
     function open() {
       const hr = crestBox.getBoundingClientRect();
       const tx = hr.left + hr.width / 2, ty = hr.top + hr.height / 2;
-      gsap.fromTo(ripple, { x: tx, y: ty, width: hr.height, height: hr.height, opacity: 0.9 }, { width: hr.height * 3, height: hr.height * 3, opacity: 0, duration: 0.8, ease: "power2.out" });
+      gsap.fromTo(ripple, { x: tx, y: ty, width: hr.height, height: hr.height, opacity: 0.9 }, { width: hr.height * 3, height: hr.height * 3, opacity: 0, duration: 0.7, ease: "power2.out" });
       el.style.setProperty("--x", `${tx}px`); el.style.setProperty("--y", `${ty}px`);
       el.classList.add("is-opening");
       const far = Math.hypot(Math.max(tx, W - tx), Math.max(ty, H - ty)) + 80;
       const hole = { r: 0 };
       gsap.to(hole, {
-        r: far, duration: 1.15, ease: "power2.inOut",
+        r: far, duration: 0.8, ease: "power2.inOut",
         onUpdate() { el.style.setProperty("--r", `${hole.r}px`); },
         onComplete() {
           gsap.ticker.remove(turn);
@@ -993,6 +897,117 @@
     window.addEventListener("scroll", () => { if (cur) hide(); }, { passive: true });
   }
 
+  const BALL_SVG = '<svg viewBox="-20 -20 40 40" aria-hidden="true"><clipPath id="tb-clip"><circle r="18"/></clipPath><circle r="18" fill="#f9a717"/><g clip-path="url(#tb-clip)" fill="#120f0a" stroke="#120f0a" stroke-width="1.3" stroke-linejoin="round"><polygon points="0.00,-6.40 6.09,-1.98 3.76,5.18 -3.76,5.18 -6.09,-1.98"/><polygon points="0.00,-10.60 -4.76,-14.05 -2.94,-19.65 2.94,-19.65 4.76,-14.05"/><line x1="0.00" y1="-6.40" x2="0.00" y2="-10.60"/><polygon points="10.08,-3.28 11.90,-8.87 17.78,-8.87 19.59,-3.28 14.84,0.18"/><line x1="6.09" y1="-1.98" x2="10.08" y2="-3.28"/><polygon points="6.23,8.58 12.11,8.58 13.92,14.17 9.17,17.62 4.41,14.17"/><line x1="3.76" y1="5.18" x2="6.23" y2="8.58"/><polygon points="-6.23,8.58 -4.41,14.17 -9.17,17.62 -13.92,14.17 -12.11,8.58"/><line x1="-3.76" y1="5.18" x2="-6.23" y2="8.58"/><polygon points="-10.08,-3.28 -14.84,0.18 -19.59,-3.28 -17.78,-8.87 -11.90,-8.87"/><line x1="-6.09" y1="-1.98" x2="-10.08" y2="-3.28"/><line x1="4.76" y1="-14.05" x2="11.90" y2="-8.87"/><line x1="14.84" y1="0.18" x2="12.11" y2="8.58"/><line x1="4.41" y1="14.17" x2="-4.41" y2="14.17"/><line x1="-12.11" y1="8.58" x2="-14.84" y2="0.18"/><line x1="-11.90" y1="-8.87" x2="-4.76" y2="-14.05"/></g><circle r="18" fill="none" stroke="#120f0a" stroke-width="1.6"/></svg>';
+
+  /* ---------------------------------------------------------------
+     The touchline: a line along the bottom of the screen. A ball rolls along it
+     as the page is read and ends in a small goal when the page ends. Tap the
+     ball and it is kicked up, and the page goes back to the top. */
+  function setupTouchline() {
+    if (!hasGsap || reduce) return;
+    const wrap = document.createElement("div");
+    wrap.className = "touch";
+    wrap.innerHTML = '<span class="touch__line"></span>'
+      + '<svg class="touch__goal" viewBox="0 0 30 22" aria-hidden="true"><path class="touch__net" d="M7 3V22M12 3V22M17 3V22M22 3V22M2 8H28M2 13H28M2 18H28"/><path class="touch__frame" d="M2 22V3H28V22"/></svg>'
+      + '<button class="touch__ball" type="button" aria-label="Нагору сторінки"><span class="touch__skin">' + BALL_SVG + "</span></button>";
+    document.body.appendChild(wrap);
+    const btn = $(".touch__ball", wrap), skin = $(".touch__skin", wrap);
+    const SIZE = 28, st = { p: 0 };
+    const render = () => {
+      const travel = Math.max(0, window.innerWidth - SIZE - 14);
+      const x = travel * st.p;
+      gsap.set(btn, { x });
+      gsap.set(skin, { rotation: (x / (SIZE / 2)) * (180 / Math.PI) });
+      wrap.classList.toggle("is-goal", st.p > 0.985);
+    };
+    ScrollTrigger.create({
+      start: 0, end: "max",
+      onUpdate: (self) => gsap.to(st, { p: self.progress, duration: 0.45, ease: "power2.out", overwrite: true, onUpdate: render }),
+    });
+    window.addEventListener("resize", render);
+    render();
+    btn.addEventListener("click", () => {
+      gsap.timeline()
+        .to(skin, { y: -150, duration: 0.38, ease: "power2.out" })
+        .to(skin, { y: 0, duration: 0.6, ease: "bounce.out" });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  /* ---------------------------------------------------------------
+     Corners: each section starts from the corner of a pitch. The two lines and
+     the quarter arc are drawn, and the corner flag springs up. */
+  function setupCorners() {
+    $$(".news, .season, .hometown, .town, .squad, .academy").forEach((sec) => {
+      const c = document.createElement("span");
+      c.className = "corner"; c.setAttribute("aria-hidden", "true");
+      c.innerHTML = '<svg viewBox="0 0 120 120"><path class="corner__line" pathLength="1" d="M1 112V1H112"/><path class="corner__line corner__arc" pathLength="1" d="M1 30A29 29 0 0 0 30 1"/>'
+        + '<g class="corner__flag"><path d="M1 1V-27" class="corner__pole"/><path d="M1 -27L23 -20L1 -13Z" class="corner__cloth"/></g></svg>';
+      sec.prepend(c);
+      if (!hasGsap || reduce) return;
+      const lines = $$(".corner__line", c), cloth = $(".corner__cloth", c), flag = $(".corner__flag", c);
+      gsap.set(lines, { strokeDasharray: 1, strokeDashoffset: 1 });
+      gsap.set(flag, { scaleY: 0, transformOrigin: "0% 100%" });
+      gsap.set(cloth, { scaleX: 0, transformOrigin: "0% 50%" });
+      ScrollTrigger.create({
+        trigger: sec, start: "top 82%", once: true,
+        onEnter: () => {
+          gsap.to(lines, { strokeDashoffset: 0, duration: 0.9, ease: "power2.inOut", stagger: 0.25 });
+          gsap.to(flag, { scaleY: 1, duration: 0.5, ease: "back.out(2)", delay: 0.5 });
+          gsap.to(cloth, { scaleX: 1, duration: 1.1, ease: "elastic.out(1, 0.35)", delay: 0.8 });
+        },
+      });
+    });
+  }
+
+  /* ---------------------------------------------------------------
+     Tactics board: eleven dots on half a pitch move from one formation to the
+     next, and the ball is passed up the pitch between them. Decoration only. */
+  function setupTactics() {
+    const host = $(".season__head");
+    if (!host) return;
+    const SHAPES = {
+      "4-4-2": [[30, 215], [77, 222], [123, 222], [170, 215], [30, 150], [77, 156], [123, 156], [170, 150], [70, 86], [130, 86]],
+      "4-3-3": [[30, 215], [77, 222], [123, 222], [170, 215], [50, 156], [100, 164], [150, 156], [165, 92], [36, 92], [100, 78]],
+      "3-5-2": [[52, 220], [100, 226], [148, 220], [178, 160], [22, 160], [62, 152], [100, 166], [138, 152], [72, 86], [128, 86]],
+    };
+    const names = Object.keys(SHAPES);
+    const fig = document.createElement("figure");
+    fig.className = "tactic"; fig.setAttribute("aria-hidden", "true");
+    fig.innerHTML = '<svg viewBox="0 0 200 280"><g class="tactic__pitch"><rect x="3" y="3" width="194" height="274"/><path d="M3 30H197"/><path d="M62 30A38 38 0 0 0 138 30"/><rect x="48" y="233" width="104" height="44"/><rect x="78" y="259" width="44" height="18"/><path d="M76 233A26 26 0 0 1 124 233"/></g>'
+      + '<path class="tactic__pass" d=""/>'
+      + '<circle class="tactic__gk" cx="100" cy="262" r="6.5"/>'
+      + SHAPES["4-4-2"].map((p) => `<circle class="tactic__dot" cx="${p[0]}" cy="${p[1]}" r="6.5"/>`).join("")
+      + '<circle class="tactic__ball" cx="100" cy="262" r="4"/></svg><figcaption class="tactic__name">4-4-2</figcaption>';
+    host.appendChild(fig);
+    if (!hasGsap || reduce) return;
+    const dots = $$(".tactic__dot", fig), ballEl = $(".tactic__ball", fig), pass = $(".tactic__pass", fig), label = $(".tactic__name", fig);
+    let k = 0, running = false;
+    const play = () => {
+      const shape = SHAPES[names[k % names.length]];
+      // the ball goes keeper, a defender, a midfielder, a forward, and is shot
+      const route = [[100, 262], shape[1 + (k % 2)], shape[5], shape[8 + (k % 2)], [100, 8]];
+      const tl = gsap.timeline({ onComplete: () => { k += 1; morph(); } });
+      gsap.set(ballEl, { attr: { cx: route[0][0], cy: route[0][1] }, opacity: 1 });
+      route.slice(1).forEach((p, i) => {
+        const from = route[i];
+        tl.set(pass, { attr: { d: `M${from[0]} ${from[1]}L${p[0]} ${p[1]}` }, opacity: 0.9 })
+          .to(ballEl, { attr: { cx: p[0], cy: p[1] }, duration: i === 3 ? 0.35 : 0.5, ease: i === 3 ? "power2.in" : "power1.inOut" })
+          .to(pass, { opacity: 0, duration: 0.2 }, "<0.25");
+        const taker = dots[shape.indexOf(p)];
+        if (taker) tl.to(taker, { attr: { r: 9 }, duration: 0.12, yoyo: true, repeat: 1 }, ">-0.1");
+      });
+      tl.to(ballEl, { opacity: 0, duration: 0.2 }).to({}, { duration: 0.5 });
+    };
+    const morph = () => {
+      const name = names[k % names.length], shape = SHAPES[name];
+      gsap.to(label, { yPercent: -60, opacity: 0, duration: 0.2, onComplete: () => { label.textContent = name; gsap.fromTo(label, { yPercent: 60, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.3 }); } });
+      dots.forEach((d, i) => gsap.to(d, { attr: { cx: shape[i][0], cy: shape[i][1] }, duration: 0.9, ease: "power3.inOut", delay: i * 0.03 }));
+      gsap.delayedCall(1.3, play);
+    };
+    gsap.from([$(".tactic__gk", fig), ...dots], { scale: 0, transformOrigin: "50% 50%", duration: 0.5, ease: "back.out(2.5)", stagger: 0.05, scrollTrigger: { trigger: fig, start: "top 85%", once: true, onEnter: () => { if (!running) { running = true; gsap.delayedCall(0.9, play); } } } });
+  }
+
   /* The whole site stands on one pitch: it drifts slowly as the page scrolls. */
   function setupPitch() {
     const bg = $(".pitch-bg svg");
@@ -1015,5 +1030,8 @@
   if (hasGsap) { setupSeasonMatch(); setupHistory(); setupDetails(); }
   setupBar();
   setupMenu();
+  setupTouchline();
+  setupCorners();
+  setupTactics();
   if (hasGsap) { ScrollTrigger.sort(); ScrollTrigger.refresh(); }
 })();
