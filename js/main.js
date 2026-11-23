@@ -897,43 +897,6 @@
     window.addEventListener("scroll", () => { if (cur) hide(); }, { passive: true });
   }
 
-  const BALL_SVG = '<svg viewBox="-20 -20 40 40" aria-hidden="true"><clipPath id="tb-clip"><circle r="18"/></clipPath><circle r="18" fill="#f9a717"/><g clip-path="url(#tb-clip)" fill="#120f0a" stroke="#120f0a" stroke-width="1.3" stroke-linejoin="round"><polygon points="0.00,-6.40 6.09,-1.98 3.76,5.18 -3.76,5.18 -6.09,-1.98"/><polygon points="0.00,-10.60 -4.76,-14.05 -2.94,-19.65 2.94,-19.65 4.76,-14.05"/><line x1="0.00" y1="-6.40" x2="0.00" y2="-10.60"/><polygon points="10.08,-3.28 11.90,-8.87 17.78,-8.87 19.59,-3.28 14.84,0.18"/><line x1="6.09" y1="-1.98" x2="10.08" y2="-3.28"/><polygon points="6.23,8.58 12.11,8.58 13.92,14.17 9.17,17.62 4.41,14.17"/><line x1="3.76" y1="5.18" x2="6.23" y2="8.58"/><polygon points="-6.23,8.58 -4.41,14.17 -9.17,17.62 -13.92,14.17 -12.11,8.58"/><line x1="-3.76" y1="5.18" x2="-6.23" y2="8.58"/><polygon points="-10.08,-3.28 -14.84,0.18 -19.59,-3.28 -17.78,-8.87 -11.90,-8.87"/><line x1="-6.09" y1="-1.98" x2="-10.08" y2="-3.28"/><line x1="4.76" y1="-14.05" x2="11.90" y2="-8.87"/><line x1="14.84" y1="0.18" x2="12.11" y2="8.58"/><line x1="4.41" y1="14.17" x2="-4.41" y2="14.17"/><line x1="-12.11" y1="8.58" x2="-14.84" y2="0.18"/><line x1="-11.90" y1="-8.87" x2="-4.76" y2="-14.05"/></g><circle r="18" fill="none" stroke="#120f0a" stroke-width="1.6"/></svg>';
-
-  /* ---------------------------------------------------------------
-     The touchline: a line along the bottom of the screen. A ball rolls along it
-     as the page is read and ends in a small goal when the page ends. Tap the
-     ball and it is kicked up, and the page goes back to the top. */
-  function setupTouchline() {
-    if (!hasGsap || reduce) return;
-    const wrap = document.createElement("div");
-    wrap.className = "touch";
-    wrap.innerHTML = '<span class="touch__line"></span>'
-      + '<svg class="touch__goal" viewBox="0 0 30 22" aria-hidden="true"><path class="touch__net" d="M7 3V22M12 3V22M17 3V22M22 3V22M2 8H28M2 13H28M2 18H28"/><path class="touch__frame" d="M2 22V3H28V22"/></svg>'
-      + '<button class="touch__ball" type="button" aria-label="Нагору сторінки"><span class="touch__skin">' + BALL_SVG + "</span></button>";
-    document.body.appendChild(wrap);
-    const btn = $(".touch__ball", wrap), skin = $(".touch__skin", wrap);
-    const SIZE = 28, st = { p: 0 };
-    const render = () => {
-      const travel = Math.max(0, window.innerWidth - SIZE - 14);
-      const x = travel * st.p;
-      gsap.set(btn, { x });
-      gsap.set(skin, { rotation: (x / (SIZE / 2)) * (180 / Math.PI) });
-      wrap.classList.toggle("is-goal", st.p > 0.985);
-    };
-    ScrollTrigger.create({
-      start: 0, end: "max",
-      onUpdate: (self) => gsap.to(st, { p: self.progress, duration: 0.45, ease: "power2.out", overwrite: true, onUpdate: render }),
-    });
-    window.addEventListener("resize", render);
-    render();
-    btn.addEventListener("click", () => {
-      gsap.timeline()
-        .to(skin, { y: -150, duration: 0.38, ease: "power2.out" })
-        .to(skin, { y: 0, duration: 0.6, ease: "bounce.out" });
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-  }
-
   /* ---------------------------------------------------------------
      Corners: each section starts from the corner of a pitch. The two lines and
      the quarter arc are drawn, and the corner flag springs up. */
@@ -1030,7 +993,6 @@
   if (hasGsap) { setupSeasonMatch(); setupHistory(); setupDetails(); }
   setupBar();
   setupMenu();
-  setupTouchline();
   setupCorners();
   setupTactics();
   if (hasGsap) { ScrollTrigger.sort(); ScrollTrigger.refresh(); }
