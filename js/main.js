@@ -667,23 +667,49 @@
     const ch = Math.round(Math.min((split - topLimit) * 0.94, (W * 0.8 * 385) / 157)), cw = Math.round((ch * 157) / 385);
     gsap.set(crestBox, { width: cw, height: ch, left: (W - cw) / 2, top: topLimit + (split - topLimit - ch) / 2 });
 
-    // below: the ball's own ground; it starts small and grows to fill the strip as the page loads
+    // below: the ball's own strip of ground. It starts small and grows as the page loads.
+    // Every move is a real throw: one gravity for all of them, so a higher hop takes longer;
+    // the ball only changes pace or direction when it touches the ground; a bounce gives back
+    // part of the speed it landed with; it flattens harder the faster it lands.
     const zoneTop = split + Math.max(12, H * 0.02);
     const zone = ground - zoneTop;
     const Bmax = Math.round(Math.max(40, Math.min(W * 0.5, zone * 0.62)));
     const Bmin = Math.round(Bmax * 0.38);
     let B = Bmin;
+    const GRAV = Bmax * 14, REST = 0.72;
     const room = () => Math.max(0, ground - B - zoneTop);
     const mid = W / 2;
     const side = () => Math.min(B * 0.4, W * 0.14);
-    const b = { x: -Bmin, h: 0, qx: 1, qy: 1 };
-    let grounded = true;
+    const b = { x: -Bmin, h: 0 }, q = { x: 1, y: 1 };
+    const spin = { r: 0, w: 0 };
+    let flight = null;
     const draw = () => {
-      if (!grounded) return;
       const h = Math.min(b.h, room());
-      gsap.set(ball, { width: B, height: B, x: b.x - B / 2, y: ground - B - h, scaleX: b.qx, scaleY: b.qy });
-      const k = Math.max(0, 1 - h / Math.max(1, room() * 1.2));
+      gsap.set(ball, { width: B, height: B, x: b.x - B / 2, y: ground - B - h, scaleX: q.x, scaleY: q.y });
+      const k = Math.max(0, 1 - h / Math.max(1, zone * 0.8));
       gsap.set(shadow, { width: B * 1.5, height: B * 0.22, marginLeft: -B * 0.75, marginTop: -B * 0.11, x: b.x, y: ground, scale: 0.4 + 0.6 * k, opacity: 0.9 * k });
+    };
+    // send the ball off with a sideways and an upward speed; done(impact) runs when it is back on the ground
+    const launch = (vx, vy, done) => {
+      flight = { x0: b.x, h0: b.h, vx, vy, t: 0, done };
+      // it turns as fast as it travels, plus what the touch gave it
+      gsap.to(spin, { w: (vx / (B / 2)) * DEG + Math.sign(vx || 1) * 70, duration: 0.12, overwrite: true });
+    };
+    const advance = (dt) => {
+      const f = flight;
+      if (!f) return;
+      f.t += Math.min(dt, 0.05);
+      const total = (f.vy + Math.sqrt(f.vy * f.vy + 2 * GRAV * f.h0)) / GRAV; // when it meets the ground again
+      if (f.t >= total) {
+        const impact = Math.abs(f.vy - GRAV * total);
+        b.x = f.x0 + f.vx * total; b.h = 0; flight = null;
+        const sq = Math.min(0.24, (impact / GRAV) * 0.55);
+        gsap.fromTo(q, { x: 1 + sq, y: 1 - sq }, { x: 1, y: 1, duration: 0.14 + sq * 0.5, ease: "power2.out", overwrite: true });
+        f.done(impact, f.vx);
+        return;
+      }
+      b.x = f.x0 + f.vx * f.t;
+      b.h = f.h0 + f.vy * f.t - (GRAV * f.t * f.t) / 2;
     };
 
     // the gold inside the crest: a level with a gentle wave on top; p is how much of the page is ready
@@ -705,9 +731,11 @@
     };
 
     // the spin and the wave run on their own clock, so neither ever stalls; w is degrees per second
-    const spin = { r: 0, w: 300 };
+    let full = false;
     const turn = (time, dt) => {
-      spin.r += (spin.w * dt) / 1000; gsap.set(skin, { rotation: spin.r });
+      advance(dt / 1000);
+      spin.r += (spin.w * Math.min(dt, 50)) / 1000;
+      gsap.set(skin, { rotation: spin.r });
       wave += dt / 260; fill(); draw();
     };
     gsap.ticker.add(turn);
@@ -720,7 +748,6 @@
     const fonts = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
     const minTime = new Promise((r) => setTimeout(r, 2100));
     const cap = new Promise((r) => setTimeout(r, 5200));
-    let full = false;
     const rising = gsap.to(prog, { p: 0.86, duration: 2.6, delay: 0.3, ease: "power1.out", onUpdate: fill });
     Promise.race([Promise.all([loaded, fonts, minTime]), cap]).then(() => {
       rising.kill();
@@ -730,69 +757,48 @@
       });
     });
 
-    const squash = (power) => gsap.fromTo(b, { qx: 1 + 0.2 * power, qy: 1 - 0.2 * power }, { qx: 1, qy: 1, duration: 0.2, ease: "power2.out", onUpdate: draw });
-    const sparks = (x, y, n, len) => {
-      for (let i = 0; i < n; i++) {
-        const s = document.createElement("span");
-        s.className = "loader__spark";
-        el.appendChild(s);
-        const a = Math.PI + (Math.PI * i) / (n - 1) + (Math.random() - 0.5) * 0.3; // upwards half only: sparks stay off the crest
-        gsap.set(s, { x, y, rotation: a * DEG });
-        gsap.to(s, { x: x + Math.cos(a) * len, y: y + Math.sin(a) * len * 0.5, scaleX: 0.2, opacity: 0, duration: 0.5, ease: "power2.out", onComplete: () => s.remove() });
-      }
-    };
-    // one hop: sideways at an even pace, up and down on a parabola, scaled to the room left under the crest
-    const hop = (x1, frac, dur, done) => {
-      const x0 = b.x, p = { t: 0 };
-      gsap.to(p, {
-        t: 1, duration: dur, ease: "none",
-        onUpdate() { b.x = x0 + (x1 - x0) * p.t; b.h = room() * frac * 4 * p.t * (1 - p.t); draw(); },
-        onComplete: done,
-      });
-    };
-
-    // 1. in from the left: three bounces, each lower and quicker
-    const enter = (i) => {
-      if (i === 3) { juggle(0); return; }
-      if (i > 0) squash(0.5 - i * 0.1);
-      const stops = [mid - side() * 3, mid - side() * 1.8, mid - side()];
-      hop(stops[i], [0.95, 0.6, 0.32][i], [0.55, 0.42, 0.3][i], () => enter(i + 1));
-    };
-    enter(0);
-
-    // 2. kept up while the page loads, foot to foot
-    function juggle(n) {
-      if (full && n >= 2) { finale(); return; }
-      squash(0.45);
-      const dir = n % 2 ? -1 : 1;
-      gsap.to(spin, { w: 300 + 70 * dir, duration: 0.4 });
-      hop(mid + side() * dir, Math.min(0.7 + n * 0.05, 0.95), 0.74, () => juggle(n + 1));
+    // 1. in from the left: it drops in and bounces, each bounce lower and shorter than the last
+    {
+      b.h = room() * 0.9;
+      const v0 = Math.sqrt(2 * GRAV * b.h);
+      const tFall = v0 / GRAV, t1 = (2 * REST * v0) / GRAV, t2 = (2 * REST * REST * v0) / GRAV;
+      const vx = (mid - side() - b.x) / (tFall + 0.9 * t1 + 0.81 * t2);
+      let n = 0;
+      const bounce = (impact, pace) => {
+        n += 1;
+        if (n === 3) { juggle(0); return; }
+        launch(pace * 0.9, impact * REST, bounce);
+      };
+      launch(vx, 0, bounce);
     }
 
-    // 3. the crest goes to its place on the page; the ball is driven off low to the side, well clear of it
+    // 2. kept up while the page loads: each touch sends it up and across to the other foot
+    function juggle(n) {
+      if (full && n >= 2) { finale(); return; }
+      const dir = n % 2 ? -1 : 1;
+      const apex = room() * Math.min(0.62 + n * 0.06, 0.9);
+      const vy = Math.sqrt(2 * GRAV * Math.max(apex, 1));
+      const time = (2 * vy) / GRAV;
+      launch((mid + side() * dir - b.x) / time, vy, () => juggle(n + 1));
+    }
+
+    // 3. the crest goes to its place on the page; the ball is struck low and hard and leaves the picture
     function finale() {
       const home = $(".kick__crest");
       const hr = home && home.getBoundingClientRect();
-      const tx = hr && hr.width ? hr.left + hr.width / 2 : W / 2;
-      const ty = hr && hr.width ? hr.top + hr.height / 2 : H / 2;
       gsap.to([nameEl, sub], { opacity: 0, y: -24, duration: 0.5, ease: "power2.in", stagger: 0.05 });
       gsap.to([line, back], { opacity: 0, duration: 0.6 });
       if (hr && hr.width) gsap.to(crestBox, { left: hr.left, top: hr.top, width: hr.width, height: hr.height, duration: 1.05, ease: "power3.inOut", onComplete: open });
       else gsap.delayedCall(1.05, open);
 
-      squash(0.8);
-      sparks(b.x, ground, 7, B * 0.8);
-      gsap.to(spin, { w: 900, duration: 0.3 });
-      gsap.to(shadow, { opacity: 0, duration: 0.4 });
-      // the highest it may go: under the crest's bottom wherever the crest is on its way
+      // never higher than just under the crest, wherever the crest is on its way
       const safeTop = Math.max(zoneTop, (hr && hr.bottom ? hr.bottom : 0) + 16);
-      const lift = Math.max(0, ground - B - safeTop) * 0.7;
+      const lift = Math.max(0, ground - B - safeTop) * 0.55;
       const dir = b.x <= mid ? -1 : 1;
-      const x0 = b.x, x1 = dir > 0 ? W + B : -B, p = { t: 0 };
-      gsap.to(p, {
-        t: 1, duration: 0.8, ease: "power1.in", delay: 0.05,
-        onUpdate() { b.x = x0 + (x1 - x0) * p.t; b.h = lift * 4 * p.t * (1 - p.t); draw(); },
-      });
+      const pace = dir * Math.max(W * 0.95, 700);
+      const skip = (impact, vx) => { if (b.x > -B && b.x < W + B) launch(vx * 0.92, impact * REST, skip); };
+      launch(pace, Math.sqrt(2 * GRAV * Math.max(lift, 1)), skip);
+      gsap.to(shadow, { opacity: 0, duration: 0.5, delay: 0.3 });
     }
 
     // 4. the page opens around the crest, which is already where it belongs
@@ -825,8 +831,8 @@
     const menu = $(".menu");
     if (!menu) return;
     const sum = $(".menu__toggle", menu), sheet = $(".menu__sheet", menu), word = $(".menu__word", menu);
-    const parts = () => $$(".menu__next, .menu__links li, .menu__social, .menu__foot", sheet);
-    const shut = "inset(0% 0% 100% 0% round 28px)", wide = "inset(0% 0% 0% 0% round 28px)";
+    const parts = () => $$(".menu__links li, .menu__next, .menu__social", sheet);
+    const shut = "inset(0% 0% 100% 0%)", wide = "inset(0% 0% 0% 0%)";
     let busy = false;
     menu.addEventListener("toggle", () => { if (word) word.textContent = menu.open ? "Закрити" : "Меню"; });
     if (!hasGsap || reduce) return;
@@ -838,7 +844,6 @@
         menu.open = true;
         gsap.fromTo(sheet, { clipPath: shut }, { clipPath: wide, duration: 0.55, ease: "power3.out" });
         gsap.fromTo(parts(), { y: -22, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", stagger: 0.05, delay: 0.1, onComplete: () => { busy = false; } });
-        gsap.fromTo($$(".menu__n", sheet), { scale: 0, rotate: -120 }, { scale: 1, rotate: 0, duration: 0.6, ease: "back.out(2)", stagger: 0.05, delay: 0.25 });
       } else {
         gsap.to(parts().reverse(), { y: -12, opacity: 0, duration: 0.2, stagger: 0.02 });
         gsap.to(sheet, {
